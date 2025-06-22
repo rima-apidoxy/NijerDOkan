@@ -64,7 +64,7 @@ const components = [
 
 export function Navbar() {
     return (
-        <div className=" py-3 bg-white  my-4">
+        <div className=" py-3 bg-white  mt-4">
             {/* Top section */}
             <div className="flex w-11/12 mx-auto md:w-10/12 flex-col md:flex-row items-center justify-between gap-52 mb-4 ">
                 {/* Logo */}
@@ -108,8 +108,8 @@ export function Navbar() {
 
             <div className="border-y py-4 my-5">
                 {/* Navigation Menu */}
-                <NavigationMenu className="w-11/12 md:w-10/12 mx-auto">
-                    <NavigationMenuList>
+                <NavigationMenu className="w-11/12 md:w-10/12 mx-auto ">
+                    <NavigationMenuList className="gap-1">
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Groceries</NavigationMenuTrigger>
                             <NavigationMenuContent>

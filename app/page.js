@@ -1,9 +1,10 @@
 import { Navbar } from "@/components/navbar/navbar";
+import Slider from "@/components/slider/slider";
 import { BadgePercent, MapPin, Truck } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <div className="bg-gray-200 py-4">
         <div className="w-11/12 md:w-10/12 mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <h4 className="text-gray-600">
@@ -28,6 +29,7 @@ export default function Home() {
         </div>
       </div>
       <Navbar></Navbar>
+      <Slider></Slider>
     </div>
   );
 }
