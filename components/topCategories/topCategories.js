@@ -10,7 +10,7 @@ export default function TopCategories({ title }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-10">
                 {[...Array(6)].map((_, index) => (
                     <div key={index} className="flex flex-col items-center gap-4">
-                        <div className="relative bg-gray-100 p-6 shadow-xl rounded-full flex items-center justify-center w-[160px] h-[160px] border-2 border-transparent hover:border-blue-500 transition-all duration-300">
+                        <div className="relative bg-gray-50 p-6 shadow-lg rounded-full flex items-center justify-center w-[160px] h-[160px] border-2 border-transparent hover:border-blue-500 transition-all duration-300">
                             <Image
                                 src="/images/mobile-2.webp"
                                 alt="Mobile"

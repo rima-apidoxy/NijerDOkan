@@ -1,4 +1,5 @@
 import { BestDealCards } from "@/components/bestDealCards/bestDealCards";
+import DailyEssentialsSection from "@/components/dailyEssentialsSection/dailyEssentialsSection";
 import { Navbar } from "@/components/navbar/navbar";
 import Slider from "@/components/slider/slider";
 import TopCategories from "@/components/topCategories/topCategories";
@@ -34,6 +35,7 @@ export default function Home() {
       <Slider></Slider>
       <BestDealCards title="Grab the best deal on Smartphones" />
       <TopCategories title="Shop From Top Categories"></TopCategories>
+      <DailyEssentialsSection title="Daily Essentials"></DailyEssentialsSection>
     </div>
   );
 }
