@@ -1,6 +1,7 @@
 import { BestDealCards } from "@/components/bestDealCards/bestDealCards";
 import { Navbar } from "@/components/navbar/navbar";
 import Slider from "@/components/slider/slider";
+import TopCategories from "@/components/topCategories/topCategories";
 import { BadgePercent, MapPin, Truck } from "lucide-react";
 
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
       <Navbar></Navbar>
       <Slider></Slider>
       <BestDealCards title="Grab the best deal on Smartphones" />
+      <TopCategories title="Shop From Top Categories"></TopCategories>
     </div>
   );
 }
