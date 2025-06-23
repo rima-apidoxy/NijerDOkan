@@ -3,349 +3,240 @@
 import * as React from "react"
 import Link from "next/link"
 import {
-    CircleCheckIcon,
-    CircleHelpIcon,
-    CircleIcon,
     Menu,
     Search,
     ShoppingCart,
     TableOfContents,
     User,
+    ChevronDown,
 } from "lucide-react"
-
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
 
 import { Input } from "../ui/input"
 
-const components = [
-    {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
-        description: "For sighted users to preview content available behind a link.",
-    },
-    {
-        title: "Progress",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-]
-
 export function Navbar() {
+    const [openSubIndex, setOpenSubIndex] = React.useState(null)
+    const [openSubSubIndex, setOpenSubSubIndex] = React.useState(null)
+
+    const toggleSubMenu = (index) => {
+        if (openSubIndex === index) {
+            setOpenSubIndex(null)
+            setOpenSubSubIndex(null)
+        } else {
+            setOpenSubIndex(index)
+            setOpenSubSubIndex(null)
+        }
+    }
+
+    const toggleSubSubMenu = (subIndex) => {
+        setOpenSubSubIndex(openSubSubIndex === subIndex ? null : subIndex)
+    }
+
     return (
-        <div className=" py-3 bg-white  mt-4">
-            {/* Top section */}
-            <div className="flex w-11/12 mx-auto md:w-10/12 flex-col md:flex-row items-center justify-between gap-52 mb-4 ">
+        <div className="bg-white sticky top-0 z-50 ">
+            {/* Top bar: Logo + Search + Sign In + Cart */}
+            <div className="py-4 w-11/12 md:w-10/12 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                 {/* Logo */}
-                <div className="flex items-center gap-2">
-                    <div className="bg-blue-50 p-2 rounded-xl">
-                        <Menu className="text-blue-500 w-6 h-6" />
+                <div className="flex items-center gap-3 select-none cursor-default">
+                    <div className="bg-blue-50 p-2 rounded-xl transition duration-300">
+                        <Menu className="text-blue-600 w-6 h-6" />
                     </div>
-                    <h2 className="text-blue-500 font-extrabold text-xl">NijerDokan</h2>
+                    <h2 className="text-blue-600 font-extrabold text-2xl">NijerDokan</h2>
                 </div>
 
-                <div className="flex items-center gap-6 w-full max-w-4xl">
-                    {/* Search bar */}
-                    <div className="relative flex-grow max-w-md">
-                        <Search className="text-blue-500 absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
-                        <Input
-                            type="search"
-                            placeholder="Search essentials, Groceries and more..."
-                            className="bg-blue-50 py-3 border-0 rounded-xl pl-10 pr-10"
-                        />
-                        <TableOfContents
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-500 transform rotate-180 cursor-pointer"
-                            aria-label="Toggle menu"
-                        />
-                    </div>
-
-                    {/* Sign In */}
-                    <div className="flex items-center  gap-2 whitespace-nowrap">
-                        <User className="text-blue-500" />
-                        <h3 className="text-sm font-medium">Sign Up / Sign In</h3>
-                        <span className="hidden md:block h-6 w-px bg-gray-300 mx-2" />
-                    </div>
-
-                    {/* Cart */}
-                    <div className="flex items-center -ml-4 whitespace-nowrap cursor-pointer">
-                        <ShoppingCart className="text-blue-500" />
-                        <h3 className="text-sm font-medium">Cart</h3>
-                    </div>
+                {/* Search */}
+                <div className="relative flex-grow max-w-md w-full md:w-auto">
+                    <Search className="text-blue-600 absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
+                    <Input
+                        type="search"
+                        placeholder="Search essentials, Groceries and more..."
+                        className="bg-blue-50 py-3 border-0 rounded-xl pl-10 pr-10 focus:ring-2 focus:ring-blue-400 transition w-full"
+                    />
+                    <TableOfContents
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600 rotate-180 cursor-pointer"
+                        aria-label="Toggle menu"
+                    />
                 </div>
 
+                {/* Sign In & Cart */}
+                <div className="flex items-center gap-8 whitespace-nowrap">
+                    <div className="flex items-center gap-3 cursor-pointer hover:text-blue-600 transition duration-200">
+                        <User className="text-blue-600" />
+                        <h3 className="text-sm font-semibold">Sign Up / Sign In</h3>
+                    </div>
+
+                    <div className="flex items-center cursor-pointer hover:text-blue-600 transition duration-200">
+                        <ShoppingCart className="text-blue-600" />
+                        <h3 className="text-sm font-semibold ml-1">Cart</h3>
+                    </div>
+                </div>
             </div>
 
-            <div className="border-y py-4 my-5">
-                {/* Navigation Menu */}
-                <NavigationMenu className="w-11/12 md:w-10/12 mx-auto ">
-                    <NavigationMenuList className="gap-1">
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Groceries</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                                    <li className="row-span-3">
-                                        <NavigationMenuLink asChild>
-                                            <Link
-                                                href="/"
-                                                className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b p-6 no-underline outline-none select-none focus:shadow-md"
-                                            >
-                                                <div className="mt-4 mb-2 text-lg font-medium">
-                                                    shadcn/ui
-                                                </div>
-                                                <p className="text-muted-foreground text-sm leading-tight">
-                                                    Beautifully designed components built with Tailwind CSS.
-                                                </p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                    <ListItem href="/docs" title="Introduction">
-                                        Re-usable components built using Radix UI and Tailwind CSS.
-                                    </ListItem>
-                                    <ListItem href="/docs/installation" title="Installation">
-                                        How to install dependencies and structure your app.
-                                    </ListItem>
-                                    <ListItem href="/docs/primitives/typography" title="Typography">
-                                        Styles for headings, paragraphs, lists...etc
-                                    </ListItem>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
+            {/* Nav menu: centered on its own line */}
+            <nav className="border-t border-b border-gray-200 bg-white py-3 mb-4">
+                <ul className="w-11/12 md:w-10/12 mx-auto flex justify-center gap-6 select-none">
+                    {menuData.map((item, index) => (
+                        <li key={index} className="relative">
+                            <button
+                                type="button"
+                                onClick={() => toggleSubMenu(index)}
+                                className={`
+                                    flex items-center gap-1 font-semibold rounded-md px-4 py-2
+                                    transition duration-300
+                                    ${openSubIndex === index
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-blue-50 text-blue-700 hover:bg-blue-500 hover:text-white"
+                                    }
+                                `}
+                            >
+                                {item.label}
+                                <ChevronDown
+                                    className={`h-5 w-5 transition-transform duration-300 ${openSubIndex === index ? "rotate-180 text-white" : "rotate-0 text-blue-500"
+                                        }`}
+                                />
+                            </button>
 
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Premium Fruits</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                                    {components.map((component) => (
-                                        <ListItem
-                                            key={component.title}
-                                            title={component.title}
-                                            href={component.href}
-                                        >
-                                            {component.description}
-                                        </ListItem>
+                            {openSubIndex === index && (
+                                <ul
+                                    className="absolute top-full left-0 mt-2 bg-white shadow-xl rounded-lg p-5 w-72 md:w-80 z-50 border border-gray-200"
+                                    onMouseLeave={() => {
+                                        setOpenSubIndex(null)
+                                        setOpenSubSubIndex(null)
+                                    }}
+                                >
+                                    {item.children.map((sub, subIndex) => (
+                                        <li key={subIndex} className="mb-3 last:mb-0">
+                                            <div
+                                                onClick={() => toggleSubSubMenu(`${index}-${subIndex}`)}
+                                                className="flex justify-between items-center cursor-pointer font-medium text-gray-700 hover:text-blue-600 transition duration-150 select-none"
+                                            >
+                                                {sub.label}
+                                                {sub.children && (
+                                                    <ChevronDown
+                                                        className={`h-4 w-4 transition-transform duration-300 ${openSubSubIndex === `${index}-${subIndex}`
+                                                            ? "rotate-180 text-blue-600"
+                                                            : "rotate-0 text-gray-400"
+                                                            }`}
+                                                    />
+                                                )}
+                                            </div>
+
+                                            {openSubSubIndex === `${index}-${subIndex}` && sub.children && (
+                                                <ul className="mt-2 ml-4 list-disc list-inside text-sm text-gray-600 space-y-1 border-l border-gray-300 pl-3">
+                                                    {sub.children.map((c, j) => (
+                                                        <li key={j} className="hover:text-blue-600 transition duration-150">
+                                                            <Link href={c.href}>{c.label}</Link>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </li>
                                     ))}
                                 </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Home & Kitchens</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[300px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Components</div>
-                                                <div className="text-muted-foreground">
-                                                    Browse all components in the library.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Documentation</div>
-                                                <div className="text-muted-foreground">
-                                                    Learn how to use the library.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Blog</div>
-                                                <div className="text-muted-foreground">
-                                                    Read our latest blog posts.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Fashion</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[300px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Components</div>
-                                                <div className="text-muted-foreground">
-                                                    Browse all components in the library.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Documentation</div>
-                                                <div className="text-muted-foreground">
-                                                    Learn how to use the library.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">
-                                                <div className="font-medium">Blog</div>
-                                                <div className="text-muted-foreground">
-                                                    Read our latest blog posts.
-                                                </div>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Electronics</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[200px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">Components</Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">Documentation</Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#">Blocks</Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Beauty</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[200px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleHelpIcon />
-                                                Backlog
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleIcon />
-                                                To Do
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleCheckIcon />
-                                                Done
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Home Imporvement</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[200px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleHelpIcon />
-                                                Backlog
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleIcon />
-                                                To Do
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleCheckIcon />
-                                                Done
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>Sports, Toys & Luggage</NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[200px] gap-4">
-                                    <li>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleHelpIcon />
-                                                Backlog
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleIcon />
-                                                To Do
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link href="#" className="flex items-center gap-2">
-                                                <CircleCheckIcon />
-                                                Done
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
-            </div>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </nav>
         </div>
     )
 }
 
-function ListItem(props) {
-    const { title, children, href, ...rest } = props
-    return (
-        <li {...rest}>
-            <NavigationMenuLink asChild>
-                <Link href={href}>
-                    <div className="text-sm leading-none font-medium">{title}</div>
-                    <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-                        {children}
-                    </p>
-                </Link>
-            </NavigationMenuLink>
-        </li>
-    )
-}
+const menuData = [
+    {
+        label: "Clothing",
+        children: [
+            {
+                label: "Men's Wear",
+                children: [
+                    { label: "T-Shirts", href: "#" },
+                    { label: "Jeans", href: "#" },
+                    { label: "Jackets", href: "#" },
+                ],
+            },
+            {
+                label: "Women's Wear",
+                children: [
+                    { label: "Kurtis", href: "#" },
+                    { label: "Sarees", href: "#" },
+                    { label: "Tops", href: "#" },
+                ],
+            },
+        ],
+    },
+    {
+        label: "Foods and beverage",
+        children: [
+            {
+                label: "Snacks",
+                children: [
+                    { label: "Chips", href: "#" },
+                    { label: "Biscuits", href: "#" },
+                ],
+            },
+            {
+                label: "Drinks",
+                children: [
+                    { label: "Juices", href: "#" },
+                    { label: "Soda", href: "#" },
+                ],
+            },
+        ],
+    },
+    {
+        label: "Plastics",
+        children: [
+            {
+                label: "Home Use",
+                children: [
+                    { label: "Buckets", href: "#" },
+                    { label: "Containers", href: "#" },
+                ],
+            },
+            {
+                label: "Industrial Use",
+                children: [
+                    { label: "Tanks", href: "#" },
+                    { label: "Pipes", href: "#" },
+                ],
+            },
+        ],
+    },
+    {
+        label: "Fabrics",
+        children: [
+            {
+                label: "Raw Fabrics",
+                children: [
+                    { label: "Cotton", href: "#" },
+                    { label: "Silk", href: "#" },
+                ],
+            },
+            {
+                label: "Finished Fabrics",
+                children: [
+                    { label: "Curtains", href: "#" },
+                    { label: "Bedsheets", href: "#" },
+                ],
+            },
+        ],
+    },
+    {
+        label: "Chemicals",
+        children: [
+            {
+                label: "Household Chemicals",
+                children: [
+                    { label: "Cleaners", href: "#" },
+                    { label: "Detergents", href: "#" },
+                ],
+            },
+            {
+                label: "Industrial Chemicals",
+                children: [
+                    { label: "Solvents", href: "#" },
+                    { label: "Lubricants", href: "#" },
+                ],
+            },
+        ],
+    },
+]

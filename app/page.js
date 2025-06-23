@@ -1,5 +1,6 @@
 import { BestDealCards } from "@/components/bestDealCards/bestDealCards";
 import DailyEssentialsSection from "@/components/dailyEssentialsSection/dailyEssentialsSection";
+import Footer from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import Slider from "@/components/slider/slider";
 import TopBrandsSection from "@/components/topBrandsSection/topBrandsSection";
@@ -38,6 +39,7 @@ export default function Home() {
       <TopCategories title="Shop From Top Categories"></TopCategories>
       <TopBrandsSection title="Top Electronics Brands"></TopBrandsSection>
       <DailyEssentialsSection title="Daily Essentials"></DailyEssentialsSection>
+      <Footer></Footer>
     </div>
   );
 }
