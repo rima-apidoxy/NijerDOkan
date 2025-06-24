@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Star, ChevronRight, ShieldCheck, Ruler, Truck, Repeat } from "lucide-react"
 import { ProductDetailsTabs } from "@/components/productDetailsTabs/productDetailsTabs"
+import { SimilarProductsSection } from "@/components/similarProductsSection/similarProductSections"
 
 export default function ProductDetailPage({ params }) {
     const product = {
@@ -174,6 +175,10 @@ export default function ProductDetailPage({ params }) {
                         />
                     </div>
                 </div>
+            </div>
+
+            <div>
+                <SimilarProductsSection></SimilarProductsSection>
             </div>
 
         </div>
