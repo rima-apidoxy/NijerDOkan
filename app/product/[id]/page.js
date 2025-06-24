@@ -154,7 +154,7 @@ export default function ProductDetailPage({ params }) {
                 </div>
             </div>
 
-            <div className="py-10">
+            <div className="py-10 mt-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                     <div className="flex flex-col h-full">
                         <h2 className="text-4xl font-extrabold text-black border-l-4 border-l-blue-600 pl-4 mb-6">
