@@ -33,7 +33,7 @@ export function Navbar() {
 
     return (
         <div className="bg-white sticky top-0 z-50 ">
-            {/* Top bar: Logo + Search + Sign In + Cart */}
+            {/* Top bar */}
             <div className="py-4 w-11/12 md:w-10/12 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                 {/* Logo */}
                 <div className="flex items-center gap-3 select-none cursor-default">
@@ -71,7 +71,7 @@ export function Navbar() {
                 </div>
             </div>
 
-            {/* Nav menu: centered on its own line */}
+            {/* Nav menu */}
             <nav className="border-t border-b border-gray-200 bg-white py-3 mb-4">
                 <ul className="w-11/12 md:w-10/12 mx-auto flex justify-center gap-6 select-none">
                     {menuData.map((item, index) => (
