@@ -10,7 +10,7 @@ export default function ProductDetailPage({ params }) {
         description:
             "This floral top is made from lightweight, breathable fabric and features a relaxed fit for all-day comfort. Perfect for warm weather.",
         image: "https://static.cilory.com/676880-thickbox_default/abstract-floral-printed-rayon-button-down-summer-shirt-by-estonished.jpg.webp",
-        price: 49.99,
+        price: 49.00,
         category: "Women's Wear",
         subcategory: "Tops",
         brand: "StyleBloom",
@@ -119,7 +119,7 @@ export default function ProductDetailPage({ params }) {
                                 {product.inStock ? "Add to Cart" : "Out of Stock"}
                             </button>
                             <div className="text-2xl font-bold text-blue-700 border border-blue-600 px-4 py-2 rounded-md">
-                                ${product.price.toFixed(2)}
+                                {product.price.toFixed(2)}৳
                             </div>
                         </div>
 

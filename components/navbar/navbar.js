@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 
 import { Input } from "../ui/input"
+import CartDropdown from "../cartDropDown/cartDropDown"
 
 export function Navbar() {
     const [openSubIndex, setOpenSubIndex] = React.useState(null)
@@ -65,7 +66,8 @@ export function Navbar() {
                     </div>
 
                     <div className="flex items-center cursor-pointer hover:text-blue-600 transition duration-200">
-                        <ShoppingCart className="text-blue-600" />
+                        <CartDropdown></CartDropdown>
+                        {/* <ShoppingCart className="text-blue-600" /> */}
                         <h3 className="text-sm font-semibold ml-1">Cart</h3>
                     </div>
                 </div>

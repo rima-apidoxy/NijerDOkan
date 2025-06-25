@@ -6,6 +6,7 @@ const nextConfig = {
       "img4.dhresource.com",
       "example.com",
       "static.cilory.com",
+      "via.placeholder.com"
     ],
   },
 };
