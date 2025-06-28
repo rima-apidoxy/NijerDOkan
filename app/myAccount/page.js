@@ -1,5 +1,6 @@
 import ChangeCurrency from "@/components/changeCurrency/changeCurrency";
 import MyOrders from "@/components/myOrders/myOrders";
+import NotificationSettings from "@/components/notificationSettings/notificationSettings";
 import OrderDetails from "@/components/orderDetails/orderDetails";
 import Themes from "@/components/themes/themes";
 import Wishlist from "@/components/wishlist/wishlist";
@@ -48,7 +49,8 @@ export default function MyAccount() {
                 {/* <MyOrders></MyOrders> */}
                 {/* <Wishlist></Wishlist>  */}
                 {/* <ChangeCurrency></ChangeCurrency> */}
-                <Themes></Themes>
+                {/* <Themes></Themes> */}
+                <NotificationSettings></NotificationSettings>
             </section>
         </div>
     )
