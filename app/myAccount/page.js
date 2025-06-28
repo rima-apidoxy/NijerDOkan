@@ -1,5 +1,6 @@
 import MyOrders from "@/components/myOrders/myOrders";
 import OrderDetails from "@/components/orderDetails/orderDetails";
+import Wishlist from "@/components/wishlist/wishlist";
 import { Heart, LogOut, ShoppingBag, User } from "lucide-react";
 
 export default function MyAccount() {
@@ -31,9 +32,9 @@ export default function MyAccount() {
 
             {/* Right Content */}
             <section className="">
-                <OrderDetails></OrderDetails>
+                {/* <OrderDetails></OrderDetails> */}
                 {/* <MyOrders></MyOrders> */}
-
+                <Wishlist></Wishlist>
 
             </section>
         </div>
