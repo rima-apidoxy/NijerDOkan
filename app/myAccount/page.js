@@ -1,10 +1,11 @@
 import ChangeCurrency from "@/components/changeCurrency/changeCurrency";
+import LanguageSelector from "@/components/languageSelector/languageSelector";
 import MyOrders from "@/components/myOrders/myOrders";
 import NotificationSettings from "@/components/notificationSettings/notificationSettings";
 import OrderDetails from "@/components/orderDetails/orderDetails";
 import Themes from "@/components/themes/themes";
 import Wishlist from "@/components/wishlist/wishlist";
-import { CircleDollarSign, Heart, LogOut, Palette, ShoppingBag, User } from "lucide-react";
+import { CircleDollarSign, Heart, Languages, LogOut, Palette, ShoppingBag, User } from "lucide-react";
 
 export default function MyAccount() {
     return (
@@ -30,6 +31,10 @@ export default function MyAccount() {
                         <Palette />
                         <h6>Themes</h6>
                     </div>
+                    <div className="text-left text-gray-700 font-semibold text-sm flex gap-2">
+                        <Languages />
+                        <h6>Language</h6>
+                    </div>
 
                     <div className="text-left text-gray-700 font-semibold text-sm flex gap-2">
                         <User />
@@ -50,7 +55,8 @@ export default function MyAccount() {
                 {/* <Wishlist></Wishlist>  */}
                 {/* <ChangeCurrency></ChangeCurrency> */}
                 {/* <Themes></Themes> */}
-                <NotificationSettings></NotificationSettings>
+                {/* <NotificationSettings></NotificationSettings> */}
+                <LanguageSelector></LanguageSelector>
             </section>
         </div>
     )
