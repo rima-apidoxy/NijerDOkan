@@ -1,7 +1,8 @@
+import ChangeCurrency from "@/components/changeCurrency/changeCurrency";
 import MyOrders from "@/components/myOrders/myOrders";
 import OrderDetails from "@/components/orderDetails/orderDetails";
 import Wishlist from "@/components/wishlist/wishlist";
-import { Heart, LogOut, ShoppingBag, User } from "lucide-react";
+import { CircleDollarSign, Heart, LogOut, ShoppingBag, User } from "lucide-react";
 
 export default function MyAccount() {
     return (
@@ -20,9 +21,15 @@ export default function MyAccount() {
                         <h6>Wishlist</h6>
                     </div>
                     <div className="text-left text-gray-700 font-semibold text-sm flex gap-2">
+                        <CircleDollarSign />
+                        <h6>Currency</h6>
+                    </div>
+
+                    <div className="text-left text-gray-700 font-semibold text-sm flex gap-2">
                         <User />
                         <h6>My Info</h6>
                     </div>
+
                     <div className="text-left text-gray-700 font-semibold text-sm flex gap-2">
                         <LogOut />
                         <h6>Sign Out</h6>
@@ -34,7 +41,8 @@ export default function MyAccount() {
             <section className="">
                 {/* <OrderDetails></OrderDetails> */}
                 {/* <MyOrders></MyOrders> */}
-                <Wishlist></Wishlist>
+                {/* <Wishlist></Wishlist>  */}
+                <ChangeCurrency></ChangeCurrency>
 
             </section>
         </div>
