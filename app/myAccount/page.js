@@ -1,5 +1,6 @@
 import ChangeCurrency from "@/components/changeCurrency/changeCurrency";
 import LanguageSelector from "@/components/languageSelector/languageSelector";
+import MyInfo from "@/components/myInfo/myInfo";
 import MyOrders from "@/components/myOrders/myOrders";
 import NotificationSettings from "@/components/notificationSettings/notificationSettings";
 import OrderDetails from "@/components/orderDetails/orderDetails";
@@ -56,7 +57,9 @@ export default function MyAccount() {
                 {/* <ChangeCurrency></ChangeCurrency> */}
                 {/* <Themes></Themes> */}
                 {/* <NotificationSettings></NotificationSettings> */}
-                <LanguageSelector></LanguageSelector>
+                {/* <LanguageSelector></LanguageSelector> */}
+                <MyInfo></MyInfo>
+
             </section>
         </div>
     )
