@@ -3,7 +3,6 @@ import DailyEssentialsSection from "@/components/dailyEssentialsSection/dailyEss
 import Slider from "@/components/slider/slider";
 import TopBrandsSection from "@/components/topBrandsSection/topBrandsSection";
 import TopCategories from "@/components/topCategories/topCategories";
-import PageNotFound from "./pageNotFound";
 
 export default function Home() {
   return (

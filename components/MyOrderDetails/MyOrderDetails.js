@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 
 export default function MyOrderDetails() {
     return (
@@ -42,9 +43,9 @@ export default function MyOrderDetails() {
                             <p className="text-sm text-gray-600">Total: ৳23.00</p>
                         </div>
                     </div>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+                    <Link href="/orderDetails" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
                         View Detail
-                    </button>
+                    </Link>
                 </div>
             </div>
 

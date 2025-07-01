@@ -1,0 +1,106 @@
+{
+    "error": false,
+    "error_code": 0,
+    "message": "",
+    "collections": [
+        {
+            "id": "123456789",
+            "title": "Clothing",
+            "handle": "clothing",
+            "description": "All clothing items.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": null
+        },
+        {
+            "id": "987654321",
+            "title": "Men's Clothing",
+            "handle": "mens-clothing",
+            "description": "Trendy men's clothing.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "123456789"
+        },
+        {
+            "id": "567890123",
+            "title": "Jackets",
+            "handle": "mens-jackets",
+            "description": "Stylish jackets for men.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "987654321"
+        },
+        {
+            "id": "567890124",
+            "title": "Shirts",
+            "handle": "mens-shirts",
+            "description": "Casual and formal shirts for men.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "987654321"
+        },
+        {
+            "id": "987654322",
+            "title": "Women's Clothing",
+            "handle": "womens-clothing",
+            "description": "Stylish women's fashion.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "123456789"
+        },
+        {
+            "id": "567890125",
+            "title": "Dresses",
+            "handle": "womens-dresses",
+            "description": "Elegant dresses for all occasions.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "987654322"
+        },
+        {
+            "id": "567890126",
+            "title": "Tops",
+            "handle": "womens-tops",
+            "description": "Trendy tops for everyday wear.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": "987654322"
+        },
+        {
+            "id": "123456743489",
+            "title": "Food and bevarage",
+            "handle": "food-bevarage",
+            "description": "All clothing items.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": null
+        },
+        {
+            "id": "1245573456789",
+            "title": "Plastics",
+            "handle": "plastics",
+            "description": "All clothing items.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": null
+        },
+        {
+            "id": "12345645454789",
+            "title": "Fabrics",
+            "handle": "fabrics",
+            "description": "All clothing items.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": null
+        },
+        {
+            "id": "123445456789",
+            "title": "Chemicals",
+            "handle": "chemicals",
+            "description": "All clothing items.",
+            "image": "https://placehold.co/400x400.png",
+            "cover": "https://placehold.co/400x400.png",
+            "parent": null
+        }
+    ]
+}

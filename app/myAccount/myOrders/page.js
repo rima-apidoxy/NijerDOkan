@@ -10,9 +10,9 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import MyOrderDetails from '../MyOrderDetails/MyOrderDetails'
-import CancelledOrderDetails from '../cancelledOrdersDetails/cancelledOrdersDetails'
-import CompletedOrdersDetails from '../completedOrdersDetails/completedOrdersDetails'
+import CancelledOrderDetails from '@/components/cancelledOrdersDetails/cancelledOrdersDetails'
+import MyOrderDetails from '@/components/MyOrderDetails/MyOrderDetails'
+import CompletedOrdersDetails from '@/components/completedOrdersDetails/completedOrdersDetails'
 export default function MyOrders() {
     return (
 

@@ -1,244 +1,180 @@
 "use client"
 
-import * as React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import {
     Menu,
     Search,
-    ShoppingCart,
-    TableOfContents,
     User,
+    Heart,
     ChevronDown,
+    TableOfContents,
 } from "lucide-react"
-
 import { Input } from "../ui/input"
 import CartDropdown from "../cartDropDown/cartDropDown"
 
 export function Navbar() {
-    const [openSubIndex, setOpenSubIndex] = React.useState(null)
-    const [openSubSubIndex, setOpenSubSubIndex] = React.useState(null)
+    const [openCategories, setOpenCategories] = useState(false)
+    const [openSubcategory, setOpenSubcategory] = useState(null)
+    const [menuOpen, setMenuOpen] = useState(false)
 
-    const toggleSubMenu = (index) => {
-        if (openSubIndex === index) {
-            setOpenSubIndex(null)
-            setOpenSubSubIndex(null)
-        } else {
-            setOpenSubIndex(index)
-            setOpenSubSubIndex(null)
-        }
+    const toggleSubcategory = (label) => {
+        setOpenSubcategory(openSubcategory === label ? null : label)
     }
 
-    const toggleSubSubMenu = (subIndex) => {
-        setOpenSubSubIndex(openSubSubIndex === subIndex ? null : subIndex)
-    }
+    const navLinks = [
+        { label: "HOME", href: "/" },
+        { label: "SHOP", href: "/shop" },
+        { label: "My ACCOUNT", href: "/myAccount" },
+        { label: "CATEGORIES", href: "/categories" },
+        { label: "FAQ", href: "/faq" },
+        { label: "CONTACT US", href: "/contact" },
+    ]
 
     return (
-        <div className="bg-white sticky top-0 z-50 ">
-            {/* Top bar */}
-            <div className="py-4 w-11/12 md:w-10/12 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <header className="sticky top-0 z-50 bg-white shadow">
+            <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">
                 {/* Logo */}
-                <div className="flex items-center gap-3 select-none cursor-default">
-                    <div className="bg-blue-50 p-2 rounded-xl transition duration-300">
-                        <Menu className="text-blue-600 w-6 h-6" />
-                    </div>
-                    <h2 className="text-blue-600 font-extrabold text-2xl">NijerDokan</h2>
-                </div>
+                <h2 className="text-blue-600 font-extrabold text-2xl">NijerDokan</h2>
 
                 {/* Search */}
-                <div className="relative flex-grow max-w-md w-full md:w-auto">
-                    <Search className="text-blue-600 absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
+                <div className="relative flex-grow w-full md:max-w-lg">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600" />
                     <Input
                         type="search"
                         placeholder="Search essentials, Groceries and more..."
-                        className="bg-blue-50 py-3 border-0 rounded-xl pl-10 pr-10 focus:ring-2 focus:ring-blue-400 transition w-full"
+                        className="bg-blue-50 border-0 rounded-full pl-10 pr-10 py-2 focus:ring-2 focus:ring-blue-400 w-full"
                     />
                     <TableOfContents
                         className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600 rotate-180 cursor-pointer"
-                        aria-label="Toggle menu"
                     />
                 </div>
 
-                {/* Sign In & Cart */}
-                <div className="flex items-center gap-8 whitespace-nowrap">
-                    <div className="flex items-center gap-3 cursor-pointer hover:text-blue-600 transition duration-200">
+                {/* Actions */}
+                <div className="flex items-center gap-4 md:gap-6 text-gray-700">
+                    <Link href="/auth" className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
                         <User className="text-blue-600" />
-                        <h3 className="text-sm font-semibold">Sign Up / Sign In</h3>
-                    </div>
+                        <span className="text-sm md:font-semibold">Sign Up/Sign In</span>
+                    </Link>
 
-                    <div className="flex items-center cursor-pointer hover:text-blue-600 transition duration-200">
-                        <CartDropdown></CartDropdown>
-                        {/* <ShoppingCart className="text-blue-600" /> */}
-                        <h3 className="text-sm font-semibold ml-1">Cart</h3>
-                    </div>
+                    <Link href="/myWishlist" className="flex items-center cursor-pointer hover:text-blue-600">
+                        <Heart className="text-blue-600" />
+                        <span className="text-sm md:font-semibold ml-1">Wishlist</span>
+                    </Link>
+
+                    <Link href="/myCart" className="flex items-center cursor-pointer hover:text-blue-600">
+                        <CartDropdown />
+                        <span className="text-sm md:font-semibold ml-1">Cart</span>
+                    </Link>
                 </div>
             </div>
 
-            {/* Nav menu */}
-            <nav className="border-t border-b border-gray-200 bg-white py-3 mb-4">
-                <ul className="w-11/12 md:w-10/12 mx-auto flex justify-center gap-6 select-none">
-                    {menuData.map((item, index) => (
-                        <li key={index} className="relative">
+            {/* Bottom nav */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white mb-8">
+                <div className="flex flex-wrap md:flex-nowrap items-center justify-between w-11/12 max-w-7xl mx-auto py-2 gap-2">
+                    <div className="flex justify-between items-center gap-2">
+                        {/* Categories */}
+                        <div className="relative">
                             <button
-                                type="button"
-                                onClick={() => toggleSubMenu(index)}
-                                className={`
-                                    flex items-center gap-1 font-semibold rounded-md px-4 py-2
-                                    transition duration-300
-                                    ${openSubIndex === index
-                                        ? "bg-blue-600 text-white"
-                                        : "bg-blue-50 text-blue-700 hover:bg-blue-500 hover:text-white"
-                                    }
-                                `}
+                                onClick={() => setOpenCategories(!openCategories)}
+                                className="flex items-center gap-2 font-semibold px-4 py-2 hover:bg-blue-700 rounded-md bg-blue-800"
                             >
-                                {item.label}
-                                <ChevronDown
-                                    className={`h-5 w-5 transition-transform duration-300 ${openSubIndex === index ? "rotate-180 text-white" : "rotate-0 text-blue-500"
-                                        }`}
-                                />
+                                <Menu className="w-5 h-5" />
+                                Categories
                             </button>
 
-                            {openSubIndex === index && (
-                                <ul
-                                    className="absolute top-full left-0 mt-2 bg-white shadow-xl rounded-lg p-5 w-72 md:w-80 z-50 border border-gray-200"
-                                    onMouseLeave={() => {
-                                        setOpenSubIndex(null)
-                                        setOpenSubSubIndex(null)
-                                    }}
-                                >
-                                    {item.children.map((sub, subIndex) => (
-                                        <li key={subIndex} className="mb-3 last:mb-0">
-                                            <div
-                                                onClick={() => toggleSubSubMenu(`${index}-${subIndex}`)}
-                                                className="flex justify-between items-center cursor-pointer font-medium text-gray-700 hover:text-blue-600 transition duration-150 select-none"
-                                            >
-                                                {sub.label}
-                                                {sub.children && (
-                                                    <ChevronDown
-                                                        className={`h-4 w-4 transition-transform duration-300 ${openSubSubIndex === `${index}-${subIndex}`
-                                                            ? "rotate-180 text-blue-600"
-                                                            : "rotate-0 text-gray-400"
-                                                            }`}
-                                                    />
-                                                )}
-                                            </div>
+                            {openCategories && (
+                                <div className="absolute left-0 mt-2 w-64 bg-white text-gray-800 shadow rounded z-50">
+                                    <ul>
+                                        {menuData.map((category) => {
+                                            const hasChildren = category.children?.length > 0
+                                            const isOpen = openSubcategory === category.label
 
-                                            {openSubSubIndex === `${index}-${subIndex}` && sub.children && (
-                                                <ul className="mt-2 ml-4 list-disc list-inside text-sm text-gray-600 space-y-1 border-l border-gray-300 pl-3">
-                                                    {sub.children.map((c, j) => (
-                                                        <li key={j} className="hover:text-blue-600 transition duration-150">
-                                                            <Link href={c.href}>{c.label}</Link>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
+                                            return (
+                                                <li key={category.label} className="border-b last:border-0">
+                                                    <button
+                                                        className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100"
+                                                        onClick={() =>
+                                                            hasChildren && toggleSubcategory(category.label)
+                                                        }
+                                                    >
+                                                        <span>{category.label}</span>
+                                                        {hasChildren && (
+                                                            <ChevronDown
+                                                                className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""
+                                                                    }`}
+                                                            />
+                                                        )}
+                                                    </button>
+                                                    {hasChildren && isOpen && (
+                                                        <ul className="bg-gray-50">
+                                                            {category.children.map((subcat) => (
+                                                                <li
+                                                                    key={subcat.label}
+                                                                    className="px-8 py-2 hover:bg-blue-100 cursor-pointer"
+                                                                >
+                                                                    {subcat.label}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
                             )}
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        </div>
+                        </div>
+
+                        {/* Menu toggle (for small screens) */}
+                        <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="md:hidden p-2 rounded hover:bg-blue-700"
+                        >
+                            <TableOfContents className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    {/* Nav options */}
+                    <nav
+                        className={`flex flex-wrap gap-2 md:gap-3 font-medium text-sm md:text-base ${menuOpen ? "flex" : "hidden"
+                            } md:flex`}
+                    >
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                className="px-3 py-1 rounded-md hover:bg-blue-800 transition"
+                            >
+                                {link.label}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+            </div>
+        </header>
     )
 }
 
 const menuData = [
     {
         label: "Clothing",
-        children: [
-            {
-                label: "Men's Wear",
-                children: [
-                    { label: "T-Shirts", href: "#" },
-                    { label: "Jeans", href: "#" },
-                    { label: "Jackets", href: "#" },
-                ],
-            },
-            {
-                label: "Women's Wear",
-                children: [
-                    { label: "Kurtis", href: "#" },
-                    { label: "Sarees", href: "#" },
-                    { label: "Tops", href: "#" },
-                ],
-            },
-        ],
+        children: [{ label: "Men's Wear" }, { label: "Women's Wear" }],
     },
     {
         label: "Foods and beverage",
-        children: [
-            {
-                label: "Snacks",
-                children: [
-                    { label: "Chips", href: "#" },
-                    { label: "Biscuits", href: "#" },
-                ],
-            },
-            {
-                label: "Drinks",
-                children: [
-                    { label: "Juices", href: "#" },
-                    { label: "Soda", href: "#" },
-                ],
-            },
-        ],
+        children: [{ label: "Snacks" }, { label: "Drinks" }],
     },
     {
         label: "Plastics",
-        children: [
-            {
-                label: "Home Use",
-                children: [
-                    { label: "Buckets", href: "#" },
-                    { label: "Containers", href: "#" },
-                ],
-            },
-            {
-                label: "Industrial Use",
-                children: [
-                    { label: "Tanks", href: "#" },
-                    { label: "Pipes", href: "#" },
-                ],
-            },
-        ],
+        children: [{ label: "Home Use" }, { label: "Industrial Use" }],
     },
     {
         label: "Fabrics",
-        children: [
-            {
-                label: "Raw Fabrics",
-                children: [
-                    { label: "Cotton", href: "#" },
-                    { label: "Silk", href: "#" },
-                ],
-            },
-            {
-                label: "Finished Fabrics",
-                children: [
-                    { label: "Curtains", href: "#" },
-                    { label: "Bedsheets", href: "#" },
-                ],
-            },
-        ],
+        children: [{ label: "Raw Fabrics" }, { label: "Finished Fabrics" }],
     },
     {
         label: "Chemicals",
-        children: [
-            {
-                label: "Household Chemicals",
-                children: [
-                    { label: "Cleaners", href: "#" },
-                    { label: "Detergents", href: "#" },
-                ],
-            },
-            {
-                label: "Industrial Chemicals",
-                children: [
-                    { label: "Solvents", href: "#" },
-                    { label: "Lubricants", href: "#" },
-                ],
-            },
-        ],
+        children: [{ label: "Household Chemicals" }, { label: "Industrial Chemicals" }],
     },
 ]

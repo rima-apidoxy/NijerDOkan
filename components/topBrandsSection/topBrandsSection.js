@@ -4,7 +4,6 @@ import React from 'react'
 import SectionTitle from '../sectionTitle/sectionTitle'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-// Swiper styles
 import 'swiper/css'
 import 'swiper/css/pagination'
 
@@ -17,125 +16,62 @@ export default function TopBrandsSection({ title }) {
             <SectionTitle title={title} />
 
             <Swiper
-                slidesPerView={3}
-                spaceBetween={30}
                 pagination={{ clickable: true }}
                 modules={[Pagination]}
                 className="mySwiper"
+                spaceBetween={30}
+                breakpoints={{
+                    0: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 25,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                    1280: {
+                        slidesPerView: 5,
+                        spaceBetween: 30,
+                    },
+                }}
             >
-                {/* Slide 1 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-blue-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-blue-800">OnePlus</h3>
+                {[
+                    { name: 'OnePlus', bg: 'bg-blue-100', text: 'text-blue-800', alt: 'OnePlus' },
+                    { name: 'Samsung', bg: 'bg-pink-100', text: 'text-pink-800', alt: 'Samsung' },
+                    { name: 'iPhone', bg: 'bg-green-100', text: 'text-green-800', alt: 'iPhone' },
+                    { name: 'Realme', bg: 'bg-yellow-100', text: 'text-yellow-800', alt: 'Realme' },
+                    { name: 'Vivo', bg: 'bg-purple-100', text: 'text-purple-800', alt: 'Vivo' },
+                    { name: 'Oppo', bg: 'bg-red-100', text: 'text-red-800', alt: 'Oppo' },
+                ].map(({ name, bg, text, alt }, idx) => (
+                    <SwiperSlide key={idx}>
+                        <div
+                            className={`${bg} rounded-lg flex items-center px-4 py-6 relative min-h-[120px]`}
+                        >
+                            <div>
+                                <p className="text-sm text-gray-600">Top Brand</p>
+                                <h3 className={`text-lg font-bold ${text}`}>{name}</h3>
+                            </div>
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                <Image
+                                    src="/images/mobile-1.png"
+                                    alt={alt}
+                                    width={90}
+                                    height={90}
+                                    className="rounded-lg"
+                                    sizes="(max-width: 640px) 70px, 90px"
+                                />
+                            </div>
                         </div>
-                        <div className="absolute right-4 ">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 2 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-pink-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-pink-800">Samsung</h3>
-                        </div>
-                        <div className="absolute right-4">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 3 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-green-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-green-800">iPhone</h3>
-                        </div>
-                        <div className="absolute right-4">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 4 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-yellow-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-yellow-800">Realme</h3>
-                        </div>
-                        <div className="absolute right-4">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 5 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-purple-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-purple-800">Vivo</h3>
-                        </div>
-                        <div className="absolute right-4">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 6 */}
-                <SwiperSlide>
-                    <div className="relative h-32 bg-red-100 rounded-lg flex items-center px-4">
-                        <div>
-                            <p className="text-sm text-gray-600">Top Brand</p>
-                            <h3 className="text-lg font-bold text-red-800">Oppo</h3>
-                        </div>
-                        <div className="absolute right-4">
-                            <Image
-                                src="/images/mobile-1.png"
-                                alt="OnePlus"
-                                width={120}
-                                height={120}
-                                className="rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </SwiperSlide>
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </div>
     )

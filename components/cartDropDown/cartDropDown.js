@@ -1,8 +1,8 @@
 "use client"
 
 import { ShoppingCart } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 
 const cartItems = [
     {
@@ -82,9 +82,15 @@ export default function CartDropdown() {
                                 <span>৳{total.toFixed(2)}</span>
                             </div>
 
-                            <Button className="w-full mt-4 bg-blue-700 hover:bg-blue-800 text-white">
+
+                            <button
+                                href="/myCart"
+                                className="w-full mt-4 bg-blue-700 hover:bg-blue-800 text-white inline-block text-center py-2 rounded"
+                            >
                                 View Cart
-                            </Button>
+                            </button>
+
+
                         </>
                     )}
                 </div>
