@@ -64,7 +64,7 @@ export function Navbar() {
                     <TableOfContents className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600 rotate-180 cursor-pointer" />
                 </div>
                 <div className="flex items-center gap-4 md:gap-6 text-gray-700 relative">
-                    <Link href="/auth" className="flex items-center gap-2 hover:text-blue-600">
+                    <Link href="/login" className="flex items-center gap-2 hover:text-blue-600">
                         <User className="text-blue-600" />
                         <span className="text-sm md:font-semibold">
                             {t("register")}/ {t("login")}

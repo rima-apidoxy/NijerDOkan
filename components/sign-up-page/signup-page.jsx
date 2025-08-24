@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, UserPlus } from 'lucide-react';
+import Link from 'next/link';
 
 const SignupPage = ({ onNavigateToLogin }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,20 @@ const SignupPage = ({ onNavigateToLogin }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [emailPhone, setEmailPhone] = useState({
+    email:"",
+    phone:""
+  })
 
+  const isValidEmailOrPhone = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    setEmailPhone({
+        email: emailRegex.test(value) ? value : "",
+        phone: phoneRegex.test(value.replace(/\s/g, '')) ? value :""
+    })
+    return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''));
+  };
   const validateForm = () => {
     const newErrors = {};
 
@@ -46,11 +60,6 @@ const SignupPage = ({ onNavigateToLogin }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const isValidEmailOrPhone = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''));
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,7 +68,7 @@ const SignupPage = ({ onNavigateToLogin }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,6 +76,7 @@ const SignupPage = ({ onNavigateToLogin }) => {
         body: JSON.stringify({
           name: formData.name,
           password: formData.password,
+          ...emailPhone
         }),
       });
 
@@ -86,13 +96,11 @@ const SignupPage = ({ onNavigateToLogin }) => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name,value)
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -232,12 +240,11 @@ const SignupPage = ({ onNavigateToLogin }) => {
           <div className="bg-gray-50 px-8 py-6 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600">
               Already have an account?{' '}
-              <button
-                onClick={onNavigateToLogin}
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+              <Link href="/login"><button
+                className="text-blue-600 hover:text-blue-700 cursor-pointer hover:underline font-medium transition-colors duration-200"
               >
                 Sign in here
-              </button>
+              </button></Link>
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
-import Login from '@/components/login/login';
+import LoginPage from '@/components/login/loginPage';
 import React from 'react';
 
-const page = () => <Login/>
+const page = () => <LoginPage/>
 
 export default page;
