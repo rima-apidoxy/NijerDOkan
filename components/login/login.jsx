@@ -9,7 +9,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-    console.log("kire",process.env.NEXT_PUBLIC_BASE_URL)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -41,11 +40,7 @@ export default function Login() {
       console.log("Login successful:", data);
       // redirect user or store token
     } catch (err) {
-      if (err instanceof z.ZodError) {
-        setError(err.errors[0].message);
-      } else {
         setError(err.message);
-      }
     } finally {
       setLoading(false);
     }

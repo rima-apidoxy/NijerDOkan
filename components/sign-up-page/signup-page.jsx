@@ -84,51 +84,6 @@ const SignupPage = ({ onNavigateToLogin }) => {
       setLoading(false);
     }
   };
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-
-//   if (!validateForm()) return;
-
-//   setLoading(true);
-
-//   try {
-//     const bodyData = {
-//       name: formData.name,
-//       password: formData.password,
-//     };
-//     if (formData.emailOrPhone) {
-//       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//       const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-//       const val = formData.emailOrPhone.replace(/\s/g, '');
-
-//       if (emailRegex.test(val)) {
-//         bodyData.email = val;
-//       } else if (phoneRegex.test(val)) {
-//         bodyData.phone = val;
-//       }
-//     }
-
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify(bodyData),
-//     });
-
-//     const data = await response.json();
-
-//     if (response.ok) {
-//       alert('Account created successfully!');
-//       onNavigateToLogin();
-//     } else {
-//       setErrors({ general: data.message || 'Signup failed' });
-//     }
-//   } catch (error) {
-//     setErrors({ general: 'Network error. Please try again.' });
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(name,value)
