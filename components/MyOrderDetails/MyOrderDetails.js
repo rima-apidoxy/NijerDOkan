@@ -43,7 +43,7 @@ export default function MyOrderDetails() {
                             <p className="text-sm text-gray-600">Total: ৳23.00</p>
                         </div>
                     </div>
-                    <Link href="/orderDetails" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+                    <Link href="/myAccount/orderDetails" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
                         View Detail
                     </Link>
                 </div>
@@ -86,9 +86,9 @@ export default function MyOrderDetails() {
                             <p className="text-sm text-gray-600">Total: ৳143.00</p>
                         </div>
                     </div>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+                    <Link href="/myAccount/orderDetails" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
                         View Detail
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

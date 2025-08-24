@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import {
     Card,
@@ -11,17 +12,21 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import CancelledOrderDetails from '@/components/cancelledOrdersDetails/cancelledOrdersDetails'
-import MyOrderDetails from '@/components/MyOrderDetails/MyOrderDetails'
 import CompletedOrdersDetails from '@/components/completedOrdersDetails/completedOrdersDetails'
+import MyOrderDetails from '@/components/myOrderDetails/myOrderDetails'
+import { useTranslation } from 'react-i18next'
 export default function MyOrders() {
+
+    const { t } = useTranslation();
+
     return (
 
         <div className="flex justify-between flex-col gap-6">
             <Tabs defaultValue="active">
                 <TabsList>
-                    <TabsTrigger value="active">Active</TabsTrigger>
-                    <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-                    <TabsTrigger value="completed">Completed</TabsTrigger>
+                    <TabsTrigger value="active">{t('active')}</TabsTrigger>
+                    <TabsTrigger value="cancelled">{t('cancelled')}</TabsTrigger>
+                    <TabsTrigger value="completed">{t('completed')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="active">
                     <Card>

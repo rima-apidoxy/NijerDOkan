@@ -28,7 +28,7 @@ export default function OrderDetails() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <div className=" px-4 py-10 space-y-8">
             {/* Order */}
             <div className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-sm">
                 <div>

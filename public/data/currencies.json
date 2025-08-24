@@ -1,0 +1,151 @@
+{
+    "currencies": [
+        {
+            "symbol": "$",
+            "code": "USD",
+            "name": "United States Dollar",
+            "exchange_rate_to_usd": 1.00,
+            "is_payable": true
+        },
+        {
+            "symbol": "৳",
+            "code": "BDT",
+            "name": "Bangladeshi Taka",
+            "exchange_rate_to_usd": 121.00,
+            "is_payable": true
+        },
+        {
+            "symbol": "€",
+            "code": "EUR",
+            "name": "Euro",
+            "exchange_rate_to_usd": 1.12,
+            "is_payable": true
+        },
+        {
+            "symbol": "¥",
+            "code": "JPY",
+            "name": "Japanese Yen",
+            "exchange_rate_to_usd": 0.0085,
+            "is_payable": true
+        },
+        {
+            "symbol": "£",
+            "code": "GBP",
+            "name": "British Pound Sterling",
+            "exchange_rate_to_usd": 1.23,
+            "is_payable": false
+        },
+        {
+            "symbol": "₹",
+            "code": "INR",
+            "name": "Indian Rupee",
+            "exchange_rate_to_usd": 0.012,
+            "is_payable": true
+        },
+        {
+            "symbol": "C$",
+            "code": "CAD",
+            "name": "Canadian Dollar",
+            "exchange_rate_to_usd": 0.75,
+            "is_payable": false
+        },
+        {
+            "symbol": "A$",
+            "code": "AUD",
+            "name": "Australian Dollar",
+            "exchange_rate_to_usd": 0.70,
+            "is_payable": true
+        },
+        {
+            "symbol": "Fr",
+            "code": "CHF",
+            "name": "Swiss Franc",
+            "exchange_rate_to_usd": 1.08,
+            "is_payable": true
+        },
+        {
+            "symbol": "元",
+            "code": "CNY",
+            "name": "Chinese Yuan",
+            "exchange_rate_to_usd": 0.16,
+            "is_payable": true
+        },
+        {
+            "symbol": "₽",
+            "code": "RUB",
+            "name": "Russian Ruble",
+            "exchange_rate_to_usd": 0.013,
+            "is_payable": false
+        },
+        {
+            "symbol": "R$",
+            "code": "BRL",
+            "name": "Brazilian Real",
+            "exchange_rate_to_usd": 0.19,
+            "is_payable": false
+        },
+        {
+            "symbol": "₺",
+            "code": "TRY",
+            "name": "Turkish Lira",
+            "exchange_rate_to_usd": 0.054,
+            "is_payable": false
+        },
+        {
+            "symbol": "₩",
+            "code": "KRW",
+            "name": "South Korean Won",
+            "exchange_rate_to_usd": 0.00084,
+            "is_payable": false
+        },
+        {
+            "symbol": "₪",
+            "code": "ILS",
+            "name": "Israeli New Shekel",
+            "exchange_rate_to_usd": 0.29,
+            "is_payable": true
+        },
+        {
+            "symbol": "د.إ",
+            "code": "AED",
+            "name": "United Arab Emirates Dirham",
+            "exchange_rate_to_usd": 0.27,
+            "is_payable": true
+        },
+        {
+            "symbol": "R",
+            "code": "ZAR",
+            "name": "South African Rand",
+            "exchange_rate_to_usd": 0.066,
+            "is_payable": true
+        },
+        {
+            "symbol": "₫",
+            "code": "VND",
+            "name": "Vietnamese Dong",
+            "exchange_rate_to_usd": 0.000044,
+            "is_payable": true
+        },
+        {
+            "symbol": "₱",
+            "code": "PHP",
+            "name": "Philippine Peso",
+            "exchange_rate_to_usd": 0.018,
+            "is_payable": true
+        },
+        {
+            "symbol": "฿",
+            "code": "THB",
+            "name": "Thai Baht",
+            "exchange_rate_to_usd": 0.029,
+            "is_payable": true
+        },
+        {
+            "symbol": "Kz",
+            "code": "AOA",
+            "name": "Angolan Kwanza",
+            "exchange_rate_to_usd": 0.0015,
+            "is_payable": true
+        }
+    ]
+}

@@ -83,12 +83,12 @@ export default function CartDropdown() {
                             </div>
 
 
-                            <button
+                            <Link
                                 href="/myCart"
                                 className="w-full mt-4 bg-blue-700 hover:bg-blue-800 text-white inline-block text-center py-2 rounded"
                             >
                                 View Cart
-                            </button>
+                            </Link>
 
 
                         </>

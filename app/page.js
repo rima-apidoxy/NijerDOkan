@@ -1,3 +1,4 @@
+
 import { BestDealCards } from "@/components/bestDealCards/bestDealCards";
 import DailyEssentialsSection from "@/components/dailyEssentialsSection/dailyEssentialsSection";
 import Slider from "@/components/slider/slider";

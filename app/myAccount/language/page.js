@@ -1,9 +1,10 @@
-"use client";
+"use client";  
 
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";  
 
 export default function LanguageSection() {
-    const [language, setLanguage] = useState("en");
+    const { i18n } = useTranslation();
 
     const languages = [
         { code: "en", label: "English (United States)" },
@@ -18,13 +19,13 @@ export default function LanguageSection() {
                     <button
                         key={code}
                         type="button"
-                        onClick={() => setLanguage(code)}
+                        onClick={() => i18n.changeLanguage(code)}
                         className={`w-full text-left px-4 py-2 rounded-md border 
-              ${language === code
+              ${i18n.language === code
                                 ? "bg-blue-600 text-white border-blue-600"
                                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                             }`}
-                        aria-pressed={language === code}
+                        aria-pressed={i18n.language === code}
                     >
                         {label}
                     </button>
