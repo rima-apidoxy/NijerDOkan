@@ -74,7 +74,6 @@ const SignupPage = () => {
     });
 
     const data = await response.json();
-    console.log("darta**************", data, response)
     if (response.ok) {
       alert('Account created successfully!');
       setFormData({

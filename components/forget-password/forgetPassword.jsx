@@ -15,7 +15,11 @@ const ForgetPasswordPage = () => {
   const isValidEmailOrPhone = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ""));
+    return {
+      email: emailRegex.test(value) ? value : "",
+      phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : '',
+      valid: emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ""))
+    }
   };
 
   const validateForm = () => {
@@ -37,39 +41,49 @@ const ForgetPasswordPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  e.preventDefault();
+  if (!validateForm()) return alert("hoi nai");
 
-    setLoading(true);
-    setErrors({});
-    setSuccessMessage("");
+  setLoading(true);
+  setErrors({});
+  setSuccessMessage("");
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/forgot-password`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+  const parsed = isValidEmailOrPhone(formData.identifier);
 
-      const data = await response.json();
+  const payload = {};
+  if (parsed.email) payload.email = parsed.email;
+  if (parsed.phone) payload.phone = parsed.phone;
 
-      if (response.ok) {
-        setSuccessMessage(
-          "✅ Password reset link has been sent to your email / phone."
-        );
-        setFormData({ identifier: "" });
-      } else {
-        setErrors({ general: data.message || "Failed to send reset link" });
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/forget-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg",
+        },
+        body: JSON.stringify(payload), 
       }
-    } catch (err) {
-      setErrors({ general: "⚠️ Network error. Please try again." });
-    } finally {
-      setLoading(false);
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setSuccessMessage(
+        "Password reset link has been sent to your email / phone."
+      );
+      setFormData({ identifier: "" });
+    } else {
+      setErrors({ general: data.error || data.message || "Failed to send reset link" });
     }
-  };
+  } catch (err) {
+    setErrors({ general: "⚠️ Network error. Please try again." });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-4">

@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
 import Link from "next/link";
 
-const LoginPage = ({ onNavigateToSignup }) => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, // auto timezone
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     fingerprint: undefined,
   });
 
@@ -73,7 +73,7 @@ const LoginPage = ({ onNavigateToSignup }) => {
         alert("Login successful!");
         // handle token store or redirect
       } else {
-        console.error("❌ Login failed:", data);
+        console.error(" Login failed:", data);
         setErrors({ general: data.message || "Login failed" });
       }
     } catch (err) {
