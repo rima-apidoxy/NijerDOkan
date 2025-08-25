@@ -62,7 +62,7 @@ const LoginPage = ({ onNavigateToSignup }) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json","x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" },
         body: JSON.stringify(formData), 
       });
 

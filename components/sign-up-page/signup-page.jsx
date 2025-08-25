@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 
-const SignupPage = ({ onNavigateToLogin }) => {
+const SignupPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     emailOrPhone: '',
@@ -14,86 +14,85 @@ const SignupPage = ({ onNavigateToLogin }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [emailPhone, setEmailPhone] = useState({
-    email:"",
-    phone:""
-  })
 
-  const isValidEmailOrPhone = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    setEmailPhone({
-        email: emailRegex.test(value) ? value : undefined,
-        phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : undefined
-    })
-    return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''));
+// Validate email or phone without changing state
+  const getEmailPhone = (value) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+  return {
+    email: emailRegex.test(value) ? value : '',
+    phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : '',
+    valid: emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''))
   };
+  };
+
   const validateForm = () => {
-    const newErrors = {};
+  const newErrors = {};
+  const { email, phone, valid } = getEmailPhone(formData.emailOrPhone);
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
-    }
+  if (!formData.name.trim()) newErrors.name = 'Name is required';
+  else if (formData.name.trim().length < 2) newErrors.name = 'Name must be at least 2 characters';
 
-    if (!formData.emailOrPhone.trim()) {
-      newErrors.emailOrPhone = 'Email or phone is required';
-    } else if (!isValidEmailOrPhone(formData.emailOrPhone)) {
-      newErrors.emailOrPhone = 'Please enter a valid email or phone number';
-    }
+  if (!formData.emailOrPhone.trim()) newErrors.emailOrPhone = 'Email or phone is required';
+  else if (!valid) newErrors.emailOrPhone = 'Please enter a valid email or phone number';
 
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
-    }
+  if (!formData.password) newErrors.password = 'Password is required';
+  else if (formData.password.length < 6)
+    newErrors.password = 'Password must be at least 6 characters';
+  else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password))
+    newErrors.password = 'Password must contain uppercase, lowercase, and number';
 
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
+  if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
+  else if (formData.password !== formData.confirmPassword)
+    newErrors.confirmPassword = 'Passwords do not match';
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  if (!validateForm()) return;
 
-    if (!validateForm()) return;
+  const { email, phone } = getEmailPhone(formData.emailOrPhone);
 
-    setLoading(true);
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          password: formData.password,
-          ...emailPhone
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Account created successfully!');
-        onNavigateToLogin();
-      } else {
-        setErrors({ general: data.message || 'Signup failed' });
-      }
-    } catch (error) {
-      setErrors({ general: 'Network error. Please try again.' });
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    name: formData.name,
+    password: formData.password,
+    ...(email && { email }),
+    ...(phone && { phone })
   };
+  setLoading(true);
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg"
+       },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    console.log("darta**************", data, response)
+    if (response.ok) {
+      alert('Account created successfully!');
+      setFormData({
+        name: '',
+        emailOrPhone: '',
+        password: '',
+        confirmPassword: '',
+      })
+    } else {
+      setErrors({ general: data.error || data.massage ||'Signup failed' });
+    }
+  } catch {
+    setErrors({ general: 'Network error. Please try again.' });
+  } finally {
+    setLoading(false);
+  }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
