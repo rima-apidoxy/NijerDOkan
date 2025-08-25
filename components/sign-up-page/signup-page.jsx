@@ -23,8 +23,8 @@ const SignupPage = ({ onNavigateToLogin }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     setEmailPhone({
-        email: emailRegex.test(value) ? value : "",
-        phone: phoneRegex.test(value.replace(/\s/g, '')) ? value :""
+        email: emailRegex.test(value) ? value : undefined,
+        phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : undefined
     })
     return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''));
   };
