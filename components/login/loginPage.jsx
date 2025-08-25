@@ -188,7 +188,7 @@ const LoginPage = ({ onNavigateToSignup }) => {
               </div>
 
               <div className="flex items-center justify-between">
-                <Link href="/forget-password">
+                <Link href="/auth/forget-password">
                 <button
                   type="button"
                   className="text-sm text-blue-600 cursor-pointer hover:underline hover:text-blue-700 font-medium transition-colors duration-200"
@@ -217,7 +217,7 @@ const LoginPage = ({ onNavigateToSignup }) => {
           <div className="bg-gray-50 px-8 py-6 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link href="/signup"><button
+              <Link href="/auth/signup"><button
                 className="text-blue-600 hover:underline cursor-pointer hover:text-blue-700 font-medium transition-colors duration-200"
               >
                 Sign up here

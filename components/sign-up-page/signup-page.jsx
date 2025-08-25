@@ -240,7 +240,7 @@ const SignupPage = ({ onNavigateToLogin }) => {
           <div className="bg-gray-50 px-8 py-6 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600">
               Already have an account?{' '}
-              <Link href="/login"><button
+              <Link href="/auth/login"><button
                 className="text-blue-600 hover:text-blue-700 cursor-pointer hover:underline font-medium transition-colors duration-200"
               >
                 Sign in here
