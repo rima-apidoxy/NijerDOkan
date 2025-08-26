@@ -8,12 +8,10 @@ import CartDropdown from "../cartDropDown/cartDropDown"
 import { useTranslation } from "react-i18next"
 import { WishlistDropdown } from "../wishlistDropdown/wishlistDropdown"
 import { usePathname } from "next/navigation"
-import { useSite } from "../../components/siteContext"
 
 export function Navbar() {
     const { t } = useTranslation()
     const pathname = usePathname()
-    const site = useSite()
 
     const [openCategories, setOpenCategories] = useState(false)
     const [openSubcategory, setOpenSubcategory] = useState(null)
@@ -24,11 +22,14 @@ export function Navbar() {
     const toggleSubcategory = (label) =>
         setOpenSubcategory(openSubcategory === label ? null : label)
 
-    // dynamically use site.nav items instead of hard-coded
-    const navLinks = site.navbar.map((label) => ({
-        label,
-        href: "/" + label.toLowerCase().replace(/\s+/g, "")
-    }))
+    const navLinks = [
+        { label: "Home", href: "/" },
+        { label: "Shop", href: "/shop" },
+        { label: "My Account", href: "/myAccount" },
+        { label: "Categories", href: "/categories" },
+        { label: "FAQ", href: "/faq" },
+        { label: "Contact Us", href: "/contact" },
+    ]
 
     useEffect(() => {
         fetch("/data/categories.json")
@@ -46,13 +47,11 @@ export function Navbar() {
             })
     }, [])
 
-    if (!site) return null
-
     return (
         <header className="sticky top-0 z-50 bg-white shadow">
             <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">
                 <h2 className="text-blue-600 font-extrabold text-xl">
-                    {site.title}
+                    My Website
                 </h2>
                 <div className="relative flex-grow w-full md:max-w-lg">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600" />
@@ -121,38 +120,6 @@ export function Navbar() {
                                 <Menu className="w-5 h-5" />
                                 {t("categories")}
                             </button>
-                            {openCategories && (
-                                <div className="absolute left-0 mt-2 w-64 bg-white text-gray-800 shadow rounded z-50">
-                                    <ul>
-                                        {menuData.map((cat) => {
-                                            const hasChildren = cat.children.length > 0
-                                            const isOpen = openSubcategory === cat.label
-                                            return (
-                                                <li key={cat.label} className="border-b last:border-0">
-                                                    <button
-                                                        className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100"
-                                                        onClick={() => hasChildren && toggleSubcategory(cat.label)}
-                                                    >
-                                                        <span>{cat.label}</span>
-                                                    </button>
-                                                    {hasChildren && isOpen && (
-                                                        <ul className="bg-gray-50">
-                                                            {cat.children.map((sub) => (
-                                                                <li
-                                                                    key={sub.label}
-                                                                    className="px-8 py-2 hover:bg-blue-100 cursor-pointer"
-                                                                >
-                                                                    {sub.label}
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    )}
-                                                </li>
-                                            )
-                                        })}
-                                    </ul>
-                                </div>
-                            )}
                         </div>
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
@@ -163,14 +130,13 @@ export function Navbar() {
                     </div>
 
                     <nav
-                        className={`flex flex-wrap gap-2 md:gap-3 font-medium text-sm md:text-base ${menuOpen ? "flex" : "hidden"
-                            } md:flex`}
+                        className={`flex flex-wrap gap-2 md:gap-3 font-medium text-sm md:text-base ${menuOpen ? "flex" : "hidden"} md:flex`}
                     >
                         {navLinks.map((link) => (
                             <Link key={link.href} href={link.href}>
-                                <a className="px-3 py-1 rounded-md hover:bg-blue-800 transition">
+                                <span className="px-3 py-1 rounded-md hover:bg-blue-800 transition cursor-pointer">
                                     {link.label}
-                                </a>
+                                </span>
                             </Link>
                         ))}
                     </nav>
