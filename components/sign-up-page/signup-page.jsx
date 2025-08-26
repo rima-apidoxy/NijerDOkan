@@ -14,6 +14,10 @@ const SignupPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+// OTP state
+const [otp, setOtp] = useState("");
+const [showOtpModal, setShowOtpModal] = useState(true);
+const [otpError, setOtpError] = useState("");
 
 // Validate email or phone without changing state
   const getEmailPhone = (value) => {
@@ -68,13 +72,14 @@ const SignupPage = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg"
+          "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" 
        },
       body: JSON.stringify(payload)
     });
 
     const data = await response.json();
     if (response.ok) {
+      setShowOtpModal(true);
       alert('Account created successfully!');
       setFormData({
         name: '',
@@ -247,7 +252,79 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
+      {showOtpModal && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-xl p-6 w-full max-w-sm">
+      <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
+
+      {/* OTP Input */}
+      <div className="flex justify-center gap-2 mb-4">
+        {[0,1,2,3,4,5].map((i) => (
+          <input
+            key={i}
+            type="text"
+            maxLength={1}
+            className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+            value={otp[i] || ""}
+            onChange={(e) => {
+              const val = e.target.value.replace(/\D/, "");
+              setOtp(prev => {
+                const newOtp = [...prev];
+                newOtp[i] = val;
+                return newOtp;
+              });
+              if (val && i < 5) {
+                const nextInput = document.querySelector(`input[name=otp-${i+1}]`);
+                nextInput?.focus();
+              }
+            }}
+            name={`otp-${i}`}
+          />
+        ))}
+      </div>
+
+      {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
+
+      <button
+        onClick={async () => {
+          if (otp.join("").length !== 6) {
+            setOtpError("Enter valid 6-digit OTP");
+            return;
+          }
+          try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/verify-otp`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ identifier: formData.emailOrPhone, otp: otp.join("") }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+              alert("Signup & OTP verification successful! You can login now.");
+              setShowOtpModal(false);
+            } else {
+              setOtpError(data.message || "OTP verification failed");
+            }
+          } catch {
+            setOtpError("Network error. Try again.");
+          }
+        }}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg mt-4 mb-2 transition-colors"
+      >
+        Verify OTP
+      </button>
+
+      <button
+        onClick={() => setShowOtpModal(false)}
+        className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors"
+      >
+        Cancel
+      </button>
     </div>
+  </div>
+)}
+
+    </div>
+    
   );
 };
 

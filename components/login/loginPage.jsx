@@ -62,12 +62,15 @@ const LoginPage = () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
         method: "POST", 
-        headers: { "Content-Type": "application/json","x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" },
+        headers: { 
+          "Content-Type": "application/json",
+          "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" 
+        },
         body: JSON.stringify(formData), 
       });
 
       const data = await response.json();
-
+      console.log(data)
       if (response.ok) {
         console.log("✅ Login successful:", data);
         alert("Login successful!");
@@ -77,7 +80,7 @@ const LoginPage = () => {
         setErrors({ general: data.message || "Login failed" });
       }
     } catch (err) {
-      console.error("⚠️ Network error:", err);
+      console.error("Network error:", err);
       setErrors({ general: "Network error. Please try again." });
     } finally {
       setLoading(false);
