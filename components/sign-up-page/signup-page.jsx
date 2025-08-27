@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, UserPlus } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -14,11 +15,11 @@ const SignupPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-// OTP state
-const [otp, setOtp] = useState("");
-const [showOtpModal, setShowOtpModal] = useState(true);
-const [otpError, setOtpError] = useState("");
+  const [otp, setOtp] = useState("");
+  const [showOtpModal, setShowOtpModal] = useState(true);
+  const [otpError, setOtpError] = useState("");
 
+  const router = useRouter()
 // Validate email or phone without changing state
   const getEmailPhone = (value) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,7 +73,7 @@ const [otpError, setOtpError] = useState("");
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-          "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" 
+        "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" 
        },
       body: JSON.stringify(payload)
     });
@@ -81,12 +82,6 @@ const [otpError, setOtpError] = useState("");
     if (response.ok) {
       setShowOtpModal(true);
       alert('Account created successfully!');
-      setFormData({
-        name: '',
-        emailOrPhone: '',
-        password: '',
-        confirmPassword: '',
-      })
     } else {
       setErrors({ general: data.error || data.massage ||'Signup failed' });
     }
@@ -252,12 +247,11 @@ const [otpError, setOtpError] = useState("");
           </div>
         </div>
       </div>
-      {showOtpModal && (
+      {/* {showOtpModal && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div className="bg-white rounded-xl p-6 w-full max-w-sm">
       <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
-      {/* OTP Input */}
       <div className="flex justify-center gap-2 mb-4">
         {[0,1,2,3,4,5].map((i) => (
           <input
@@ -282,24 +276,37 @@ const [otpError, setOtpError] = useState("");
           />
         ))}
       </div>
-
       {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
-
       <button
+        disabled={otp.length !== 6}
         onClick={async () => {
+          
+          const { email, phone } = getEmailPhone(formData.emailOrPhone);
+
           if (otp.join("").length !== 6) {
             setOtpError("Enter valid 6-digit OTP");
             return;
           }
+          const payload = {
+            otp: otp.join("")
+          };
+
+          if (email) {
+            payload.email = email;
+          } else {
+            payload.phone = phone;
+          }
+
           try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/verify-otp`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ identifier: formData.emailOrPhone, otp: otp.join("") }),
+              body: JSON.stringify(payload),
             });
             const data = await response.json();
             if (response.ok) {
               alert("Signup & OTP verification successful! You can login now.");
+              router.push("/")
               setShowOtpModal(false);
             } else {
               setOtpError(data.message || "OTP verification failed");
@@ -308,7 +315,7 @@ const [otpError, setOtpError] = useState("");
             setOtpError("Network error. Try again.");
           }
         }}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg mt-4 mb-2 transition-colors"
+        className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
       >
         Verify OTP
       </button>
@@ -321,7 +328,7 @@ const [otpError, setOtpError] = useState("");
       </button>
     </div>
   </div>
-)}
+)} */}
 
     </div>
     

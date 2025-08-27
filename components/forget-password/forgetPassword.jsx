@@ -115,7 +115,6 @@ const ForgetPasswordPage = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Identifier */}
               <div>
                 <label
                   htmlFor="identifier"
@@ -148,8 +147,6 @@ const ForgetPasswordPage = () => {
                   </p>
                 )}
               </div>
-
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
