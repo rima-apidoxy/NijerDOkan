@@ -81,7 +81,7 @@ const SignupPage = () => {
     const data = await response.json();
     if (response.ok) {
       setShowOtpModal(true);
-      alert('Account created successfully!');
+      alert('We have sent you an OTP. Please enter it to verify your account.');
     } else {
       setErrors({ general: data.error || data.massage ||'Signup failed' });
     }
@@ -300,7 +300,8 @@ const SignupPage = () => {
           try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json",
+        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"  },
               body: JSON.stringify(payload),
             });
             const data = await response.json();

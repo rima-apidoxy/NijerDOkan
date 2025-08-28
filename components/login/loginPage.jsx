@@ -70,10 +70,12 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
-      console.log(data)
       if (response.ok) {
         console.log("✅ Login successful:", data);
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         alert("Login successful!");
+
         // handle token store or redirect
       } else {
         console.error(" Login failed:", data);
