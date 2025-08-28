@@ -16,7 +16,7 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [otp, setOtp] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(true);
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [otpError, setOtpError] = useState("");
 
   const router = useRouter()
@@ -73,7 +73,7 @@ const SignupPage = () => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        "x-vendor-identifier": "cmdodf60l000028vh5otnn9fg" 
+        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z" 
        },
       body: JSON.stringify(payload)
     });
@@ -100,7 +100,7 @@ const SignupPage = () => {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50 flex items-center justify-center p-4">
+    <div className="min-h-screen -mt-8 pt-10 bg-gradient-to-br from-blue-50 via-white to-teal-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           <div className="px-8 pt-8 pb-6">
@@ -247,7 +247,7 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
-      {/* {showOtpModal && (
+      {showOtpModal && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div className="bg-white rounded-xl p-6 w-full max-w-sm">
       <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
@@ -328,7 +328,7 @@ const SignupPage = () => {
       </button>
     </div>
   </div>
-)} */}
+)}
 
     </div>
     
