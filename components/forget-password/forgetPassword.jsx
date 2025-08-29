@@ -122,7 +122,7 @@ const ForgetPasswordPage = () => {
 
     const parsed = isValidEmailOrPhone(formData.identifier);
     const payload = {
-      token: otp,
+      token: otp.join(""),
       newPassword: resetData.newPassword,
     };
     if (parsed.email) payload.email = parsed.email;
@@ -303,8 +303,9 @@ const ForgetPasswordPage = () => {
               placeholder="Confirm Password"
             />
             <button onClick={handleResetPassword}
-             disabled={resetData.newPassword && resetData.confirmPassword} 
-             className={` ${resetData.newPassword && resetData.confirmPassword ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed "}  w-full  text-white py-2 rounded-lg`}>
+              disabled={!resetData.newPassword || !resetData.confirmPassword} 
+            className={` ${resetData.newPassword && resetData.confirmPassword ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed "}  w-full  text-white py-2 rounded-lg`}
+             >
               Reset Password
             </button>
           </div>
