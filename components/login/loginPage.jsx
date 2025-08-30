@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const router = useRouter()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +33,6 @@ const LoginPage = () => {
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ""));
   };
-
   const validateForm = () => {
     const newErrors = {};
 
@@ -75,7 +76,7 @@ const LoginPage = () => {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
         alert("Login successful!");
-
+        router.push("/")
         // handle token store or redirect
       } else {
         console.error(" Login failed:", data);

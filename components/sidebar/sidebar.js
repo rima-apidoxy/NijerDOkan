@@ -1,5 +1,4 @@
 "use client"
-
 import {
     CircleDollarSign,
     Heart,
@@ -44,10 +43,6 @@ export default function Sidebar() {
                     <User />
                     <h6>{t('my_info')}</h6>
                 </Link>
-                <button className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
-                    <LogOut />
-                    <h6>{t('logout')}</h6>
-                </button>
             </nav>
         </aside>
     )

@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, Search, User, Heart, TableOfContents, Bell } from "lucide-react"
+import { Menu, Search, User, Heart, TableOfContents, Bell, LogOut } from "lucide-react"
 import { Input } from "../ui/input"
 import CartDropdown from "../cartDropDown/cartDropDown"
 import { useTranslation } from "react-i18next"
 import { WishlistDropdown } from "../wishlistDropdown/wishlistDropdown"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 export function Navbar() {
     const { t } = useTranslation()
@@ -18,6 +18,8 @@ export function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [menuData, setMenuData] = useState([])
     const [wishlistOpen, setWishlistOpen] = useState(false)
+    const router = useRouter()
+    const [sessionUser, setSessionUser] = useState(null)
 
     const toggleSubcategory = (label) =>
         setOpenSubcategory(openSubcategory === label ? null : label)
@@ -47,6 +49,55 @@ export function Navbar() {
             })
     }, [])
 
+    useEffect(() => {
+        const fetchSession = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/session`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("accessToken") || ""}`,
+                        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
+                    },
+                })
+                const data = await res.json()
+                if (data.success) {
+                    setSessionUser(data.user)
+                } else {
+                    setSessionUser(null)
+                }
+                console.log("Session Response:", data)
+            } catch (err) {
+                console.error("Session fetch error:", err)
+            }
+        }
+        fetchSession()
+    }, [])
+
+    const logOut = async () =>{
+        try{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/logout`,{
+                method:"POST",
+                headers:{
+                    "Content-type" : "application/json",
+                    "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
+                    "Authorization" : `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            })
+            const data = await res.json();
+            console.log("Logout Response:",data)
+            if(res.ok){
+                alert("Logout Successful")
+                router.push("/auth/signup");
+                localStorage.removeItem("accessToken")
+                setSessionUser(null)
+            }else{
+                alert(data.message || "Logout failed");
+            }
+        }catch(error){
+            console.log(error)
+        }
+    }
     return (
         <header className="sticky top-0 z-50 bg-white shadow">
             <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">
@@ -63,13 +114,7 @@ export function Navbar() {
                     <TableOfContents className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600 rotate-180 cursor-pointer" />
                 </div>
                 <div className="flex items-center gap-4 md:gap-6 text-gray-700 relative">
-                    <Link href="/auth/signup" className="flex items-center gap-2 hover:text-blue-600">
-                        <User className="text-blue-600" />
-                        <span className="text-sm md:font-semibold">
-                            {t("register")}/ {t("login")}
-                        </span>
-                    </Link>
-
+                
                     {pathname !== "/wishlist" && (
                         <div
                             className="relative flex items-center cursor-pointer hover:text-blue-600"
@@ -106,6 +151,18 @@ export function Navbar() {
                             {t("notifications")}
                         </span>
                     </Link>
+                    {
+                        sessionUser ? 
+                <button onClick={logOut} className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
+                    <LogOut className="text-blue-600" />
+                    <h6>{t('logout')}</h6>
+                </button> : <Link href="/auth/signup" className="flex items-center gap-2 hover:text-blue-600">
+                        <User className="text-blue-600" />
+                        <span className="text-sm md:font-semibold">
+                            {sessionUser ? sessionUser.name : `${t("register")}/ ${t("login")}`}
+                        </span>
+                    </Link>
+                    }
                 </div>
             </div>
 
