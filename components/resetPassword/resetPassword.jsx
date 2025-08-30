@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
   const [formData, setFormData] = useState({
-    email:"",
+    email: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -18,7 +18,7 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const searchParams = useSearchParams()
-  const token = searchParams.get("token"); 
+  const token = searchParams.get("token");
   const validateForm = () => {
     const newErrors = {};
 
@@ -58,7 +58,7 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
+        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
         {
           method: "POST",
           headers: {
@@ -138,11 +138,10 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="Enter your  email"
-                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.newPassword
+                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.newPassword
                           ? "border-red-300 bg-red-50"
                           : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                      }`}
+                        }`}
                     />
                   </div>
                   {errors.email && (
@@ -162,11 +161,10 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
                       value={formData.newPassword}
                       onChange={handleInputChange}
                       placeholder="Enter your new password"
-                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.newPassword
+                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.newPassword
                           ? "border-red-300 bg-red-50"
                           : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                      }`}
+                        }`}
                     />
                     <button
                       type="button"
@@ -195,11 +193,10 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
                       placeholder="Confirm your new password"
-                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.confirmPassword
+                      className={`w-full px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.confirmPassword
                           ? "border-red-300 bg-red-50"
                           : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                      }`}
+                        }`}
                     />
                     <button
                       type="button"
@@ -226,41 +223,37 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
                   <ul className="text-xs text-gray-600 space-y-1">
                     <li className="flex items-center">
                       <div
-                        className={`w-2 h-2 rounded-full mr-2 ${
-                          formData.newPassword.length >= 6
+                        className={`w-2 h-2 rounded-full mr-2 ${formData.newPassword.length >= 6
                             ? "bg-green-500"
                             : "bg-gray-300"
-                        }`}
+                          }`}
                       ></div>
                       At least 6 characters
                     </li>
                     <li className="flex items-center">
                       <div
-                        className={`w-2 h-2 rounded-full mr-2 ${
-                          /(?=.*[a-z])/.test(formData.newPassword)
+                        className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[a-z])/.test(formData.newPassword)
                             ? "bg-green-500"
                             : "bg-gray-300"
-                        }`}
+                          }`}
                       ></div>
                       One lowercase letter
                     </li>
                     <li className="flex items-center">
                       <div
-                        className={`w-2 h-2 rounded-full mr-2 ${
-                          /(?=.*[A-Z])/.test(formData.newPassword)
+                        className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[A-Z])/.test(formData.newPassword)
                             ? "bg-green-500"
                             : "bg-gray-300"
-                        }`}
+                          }`}
                       ></div>
                       One uppercase letter
                     </li>
                     <li className="flex items-center">
                       <div
-                        className={`w-2 h-2 rounded-full mr-2 ${
-                          /(?=.*\d)/.test(formData.newPassword)
+                        className={`w-2 h-2 rounded-full mr-2 ${/(?=.*\d)/.test(formData.newPassword)
                             ? "bg-green-500"
                             : "bg-gray-300"
-                        }`}
+                          }`}
                       ></div>
                       One number
                     </li>

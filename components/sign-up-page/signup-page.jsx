@@ -20,76 +20,76 @@ const SignupPage = () => {
   const [otpError, setOtpError] = useState("");
 
   const router = useRouter()
-// Validate email or phone without changing state
+  // Validate email or phone without changing state
   const getEmailPhone = (value) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-  return {
-    email: emailRegex.test(value) ? value : '',
-    phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : '',
-    valid: emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''))
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return {
+      email: emailRegex.test(value) ? value : '',
+      phone: phoneRegex.test(value.replace(/\s/g, '')) ? value : '',
+      valid: emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''))
+    };
   };
 
   const validateForm = () => {
-  const newErrors = {};
-  const { email, phone, valid } = getEmailPhone(formData.emailOrPhone);
+    const newErrors = {};
+    const { email, phone, valid } = getEmailPhone(formData.emailOrPhone);
 
-  if (!formData.name.trim()) newErrors.name = 'Name is required';
-  else if (formData.name.trim().length < 2) newErrors.name = 'Name must be at least 2 characters';
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    else if (formData.name.trim().length < 2) newErrors.name = 'Name must be at least 2 characters';
 
-  if (!formData.emailOrPhone.trim()) newErrors.emailOrPhone = 'Email or phone is required';
-  else if (!valid) newErrors.emailOrPhone = 'Please enter a valid email or phone number';
+    if (!formData.emailOrPhone.trim()) newErrors.emailOrPhone = 'Email or phone is required';
+    else if (!valid) newErrors.emailOrPhone = 'Please enter a valid email or phone number';
 
-  if (!formData.password) newErrors.password = 'Password is required';
-  else if (formData.password.length < 6)
-    newErrors.password = 'Password must be at least 6 characters';
-  else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password))
-    newErrors.password = 'Password must contain uppercase, lowercase, and number';
+    if (!formData.password) newErrors.password = 'Password is required';
+    else if (formData.password.length < 6)
+      newErrors.password = 'Password must be at least 6 characters';
+    else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password))
+      newErrors.password = 'Password must contain uppercase, lowercase, and number';
 
-  if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
-  else if (formData.password !== formData.confirmPassword)
-    newErrors.confirmPassword = 'Passwords do not match';
+    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = 'Passwords do not match';
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateForm()) return;
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  const { email, phone } = getEmailPhone(formData.emailOrPhone);
+    const { email, phone } = getEmailPhone(formData.emailOrPhone);
 
-  const payload = {
-    name: formData.name,
-    password: formData.password,
-    ...(email && { email }),
-    ...(phone && { phone })
-  };
-  setLoading(true);
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z" 
-       },
-      body: JSON.stringify(payload)
-    });
+    const payload = {
+      name: formData.name,
+      password: formData.password,
+      ...(email && { email }),
+      ...(phone && { phone })
+    };
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"
+        },
+        body: JSON.stringify(payload)
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      setShowOtpModal(true);
-      alert('We have sent you an OTP. Please enter it to verify your account.');
-    } else {
-      setErrors({ general: data.error || data.massage ||'Signup failed' });
+      const data = await response.json();
+      if (response.ok) {
+        setShowOtpModal(true);
+        alert('We have sent you an OTP. Please enter it to verify your account.');
+      } else {
+        setErrors({ general: data.error || data.massage || 'Signup failed' });
+      }
+    } catch {
+      setErrors({ general: 'Network error. Please try again.' });
+    } finally {
+      setLoading(false);
     }
-  } catch {
-    setErrors({ general: 'Network error. Please try again.' });
-  } finally {
-    setLoading(false);
-  }
   };
 
   const handleInputChange = (e) => {
@@ -130,9 +130,8 @@ const SignupPage = () => {
                     type="text"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
-                    }`}
+                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
+                      }`}
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -151,9 +150,8 @@ const SignupPage = () => {
                     type="text"
                     value={formData.emailOrPhone}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.emailOrPhone ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
-                    }`}
+                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.emailOrPhone ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
+                      }`}
                     placeholder="Enter your email or phone number"
                   />
                 </div>
@@ -172,9 +170,8 @@ const SignupPage = () => {
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
-                    }`}
+                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
+                      }`}
                     placeholder="Create a strong password"
                   />
                   <button
@@ -200,9 +197,8 @@ const SignupPage = () => {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
-                    }`}
+                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-gray-50 hover:bg-white focus:bg-white'
+                      }`}
                     placeholder="Confirm your password"
                   />
                   <button
@@ -248,91 +244,93 @@ const SignupPage = () => {
         </div>
       </div>
       {showOtpModal && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-      <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm">
+            <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
-      <div className="flex justify-center gap-2 mb-4">
-        {[0,1,2,3,4,5].map((i) => (
-          <input
-            key={i}
-            type="text"
-            maxLength={1}
-            className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
-            value={otp[i] || ""}
-            onChange={(e) => {
-              const val = e.target.value.replace(/\D/, "");
-              setOtp(prev => {
-                const newOtp = [...prev];
-                newOtp[i] = val;
-                return newOtp;
-              });
-              if (val && i < 5) {
-                const nextInput = document.querySelector(`input[name=otp-${i+1}]`);
-                nextInput?.focus();
-              }
-            }}
-            name={`otp-${i}`}
-          />
-        ))}
-      </div>
-      {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
-      <button
-        disabled={otp.length !== 6}
-        onClick={async () => {
-          
-          const { email, phone } = getEmailPhone(formData.emailOrPhone);
+            <div className="flex justify-center gap-2 mb-4">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <input
+                  key={i}
+                  type="text"
+                  maxLength={1}
+                  className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                  value={otp[i] || ""}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/, "");
+                    setOtp(prev => {
+                      const newOtp = [...prev];
+                      newOtp[i] = val;
+                      return newOtp;
+                    });
+                    if (val && i < 5) {
+                      const nextInput = document.querySelector(`input[name=otp-${i + 1}]`);
+                      nextInput?.focus();
+                    }
+                  }}
+                  name={`otp-${i}`}
+                />
+              ))}
+            </div>
+            {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
+            <button
+              disabled={otp.length !== 6}
+              onClick={async () => {
 
-          if (otp.join("").length !== 6) {
-            setOtpError("Enter valid 6-digit OTP");
-            return;
-          }
-          const payload = {
-            otp: otp.join("")
-          };
+                const { email, phone } = getEmailPhone(formData.emailOrPhone);
 
-          if (email) {
-            payload.email = email;
-          } else {
-            payload.phone = phone;
-          }
+                if (otp.join("").length !== 6) {
+                  setOtpError("Enter valid 6-digit OTP");
+                  return;
+                }
+                const payload = {
+                  otp: otp.join("")
+                };
 
-          try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json",
-        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"  },
-              body: JSON.stringify(payload),
-            });
-            const data = await response.json();
-            if (response.ok) {
-              alert("Signup & OTP verification successful! You can login now.");
-              router.push("/")
-              setShowOtpModal(false);
-            } else {
-              setOtpError(data.message || "OTP verification failed");
-            }
-          } catch {
-            setOtpError("Network error. Try again.");
-          }
-        }}
-        className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
-      >
-        Verify OTP
-      </button>
+                if (email) {
+                  payload.email = email;
+                } else {
+                  payload.phone = phone;
+                }
 
-      <button
-        onClick={() => setShowOtpModal(false)}
-        className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors"
-      >
-        Cancel
-      </button>
+                try {
+                  const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"
+                    },
+                    body: JSON.stringify(payload),
+                  });
+                  const data = await response.json();
+                  if (response.ok) {
+                    alert("Signup & OTP verification successful! You can login now.");
+                    router.push("/")
+                    setShowOtpModal(false);
+                  } else {
+                    setOtpError(data.message || "OTP verification failed");
+                  }
+                } catch {
+                  setOtpError("Network error. Try again.");
+                }
+              }}
+              className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
+            >
+              Verify OTP
+            </button>
+
+            <button
+              onClick={() => setShowOtpModal(false)}
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
-  </div>
-)}
 
-    </div>
-    
   );
 };
 

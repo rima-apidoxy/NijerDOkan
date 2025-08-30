@@ -6,11 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Lock, ArrowRight, Shield } from "lucide-react";
 const ChangPassword = () => {
-    const [formData, setFormData] = useState({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-        });
+  const [formData, setFormData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -58,7 +58,7 @@ const ChangPassword = () => {
     const accessToken = localStorage.getItem("accessToken")
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/change-password`,
+        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/change-password`,
         {
           method: "POST",
           headers: {
@@ -104,155 +104,150 @@ const ChangPassword = () => {
     }
     if (success) setSuccess(false);
   };
-    return (
-        <section className="space-y-6 bg-white shadow rounded-xl p-6">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-100 rounded-full mb-4">
-            <Shield className="w-7 h-7 text-blue-600" />
+  return (
+    <section className="space-y-6 bg-white shadow rounded-xl p-6">
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-100 rounded-full mb-4">
+          <Shield className="w-7 h-7 text-blue-600" />
+        </div>
+        <h2 className="text-lg font-semibold">Change Password</h2>
+        <p className="text-gray-600 text-sm">Update your password to keep your account secure</p>
+      </div>
+
+      {errors.general && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {errors.general}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Current Password */}
+        <div>
+          <Label className="pb-2">Current Password</Label>
+          <div className="relative">
+            <Input
+              name="currentPassword"
+              type={showCurrentPassword ? "text" : "password"}
+              value={formData.currentPassword}
+              onChange={handleInputChange}
+              placeholder="Enter your current password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+            >
+              {showCurrentPassword ? <EyeOff /> : <Eye />}
+            </button>
           </div>
-          <h2 className="text-lg font-semibold">Change Password</h2>
-          <p className="text-gray-600 text-sm">Update your password to keep your account secure</p>
+          {errors.currentPassword && (
+            <p className="mt-2 text-sm text-red-600">{errors.currentPassword}</p>
+          )}
         </div>
 
-        {errors.general && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            {errors.general}
+        {/* New Password */}
+        <div>
+          <Label className="pb-2">New Password</Label>
+          <div className="relative">
+            <Input
+              name="newPassword"
+              type={showNewPassword ? "text" : "password"}
+              value={formData.newPassword}
+              onChange={handleInputChange}
+              placeholder="Enter your new password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+            >
+              {showNewPassword ? <EyeOff /> : <Eye />}
+            </button>
           </div>
-        )}
+          {errors.newPassword && (
+            <p className="mt-2 text-sm text-red-600">{errors.newPassword}</p>
+          )}
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Current Password */}
-          <div>
-            <Label className="pb-2">Current Password</Label>
-            <div className="relative">
-              <Input
-                name="currentPassword"
-                type={showCurrentPassword ? "text" : "password"}
-                value={formData.currentPassword}
-                onChange={handleInputChange}
-                placeholder="Enter your current password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400"
-              >
-                {showCurrentPassword ? <EyeOff /> : <Eye />}
-              </button>
-            </div>
-            {errors.currentPassword && (
-              <p className="mt-2 text-sm text-red-600">{errors.currentPassword}</p>
-            )}
+        {/* Confirm Password */}
+        <div>
+          <Label className="pb-2">Confirm New Password</Label>
+          <div className="relative">
+            <Input
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              placeholder="Confirm your new password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+            >
+              {showConfirmPassword ? <EyeOff /> : <Eye />}
+            </button>
           </div>
+          {errors.confirmPassword && (
+            <p className="mt-2 text-sm text-red-600">{errors.confirmPassword}</p>
+          )}
+        </div>
 
-          {/* New Password */}
-          <div>
-            <Label className="pb-2">New Password</Label>
-            <div className="relative">
-              <Input
-                name="newPassword"
-                type={showNewPassword ? "text" : "password"}
-                value={formData.newPassword}
-                onChange={handleInputChange}
-                placeholder="Enter your new password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400"
-              >
-                {showNewPassword ? <EyeOff /> : <Eye />}
-              </button>
-            </div>
-            {errors.newPassword && (
-              <p className="mt-2 text-sm text-red-600">{errors.newPassword}</p>
-            )}
-          </div>
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Password Requirements:</h4>
+          <ul className="text-xs text-gray-600 space-y-1">
+            <li className="flex items-center">
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${formData.newPassword.length >= 6 ? "bg-green-500" : "bg-gray-300"
+                  }`}
+              ></div>
+              At least 6 characters
+            </li>
 
-          {/* Confirm Password */}
-          <div>
-            <Label className="pb-2">Confirm New Password</Label>
-            <div className="relative">
-              <Input
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                placeholder="Confirm your new password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400"
-              >
-                {showConfirmPassword ? <EyeOff /> : <Eye />}
-              </button>
-            </div>
-            {errors.confirmPassword && (
-              <p className="mt-2 text-sm text-red-600">{errors.confirmPassword}</p>
-            )}
-          </div>
-            
-           <div className="bg-gray-50 p-4 rounded-lg">
-  <h4 className="text-sm font-medium text-gray-700 mb-2">Password Requirements:</h4>
-  <ul className="text-xs text-gray-600 space-y-1">
-    <li className="flex items-center">
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${
-          formData.newPassword.length >= 6 ? "bg-green-500" : "bg-gray-300"
-        }`}
-      ></div>
-      At least 6 characters
-    </li>
+            <li className="flex items-center">
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[a-z])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
+                  }`}
+              ></div>
+              One lowercase letter
+            </li>
 
-    <li className="flex items-center">
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${
-          /(?=.*[a-z])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
-        }`}
-      ></div>
-      One lowercase letter
-    </li>
+            <li className="flex items-center">
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[A-Z])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
+                  }`}
+              ></div>
+              One uppercase letter
+            </li>
 
-    <li className="flex items-center">
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${
-          /(?=.*[A-Z])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
-        }`}
-      ></div>
-      One uppercase letter
-    </li>
+            <li className="flex items-center">
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${/(?=.*\d)/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
+                  }`}
+              ></div>
+              One number
+            </li>
+            <li className="flex items-center">
+              <div
+                className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[!@#$%^&*(),.?":{}|<>_\-])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
+                  }`}
+              ></div>
+              One special character
+            </li>
+          </ul>
+        </div>
 
-    <li className="flex items-center">
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${
-          /(?=.*\d)/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
-        }`}
-      ></div>
-      One number
-    </li>
-    <li className="flex items-center">
-      <div
-        className={`w-2 h-2 rounded-full mr-2 ${
-          /(?=.*[!@#$%^&*(),.?":{}|<>_\-])/.test(formData.newPassword) ? "bg-green-500" : "bg-gray-300"
-        }`}
-      ></div>
-      One special character
-    </li>
-  </ul>
-</div>
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            {loading ? "Updating..." : "Update Password"}
-            {!loading && <ArrowRight className="ml-2 h-5 w-5" />}
-          </Button>
-        </form>
-      </section>
-    );
+        <Button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          {loading ? "Updating..." : "Update Password"}
+          {!loading && <ArrowRight className="ml-2 h-5 w-5" />}
+        </Button>
+      </form>
+    </section>
+  );
 };
 
 export default ChangPassword;

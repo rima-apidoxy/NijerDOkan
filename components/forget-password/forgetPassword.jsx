@@ -59,7 +59,7 @@ const ForgetPasswordPage = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/forget-password`,
+        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/forget-password`,
         {
           method: "POST",
           headers: {
@@ -88,17 +88,18 @@ const ForgetPasswordPage = () => {
   // ----------------- Verify OTP -----------------
   const handleVerifyOtp = async () => {
     if (otp.join("").length !== 6) {
-            setOtpError("Enter valid 6-digit OTP");
-            return;
-          }
+      setOtpError("Enter valid 6-digit OTP");
+      return;
+    }
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
+        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json", 
+          headers: {
+            "Content-Type": "application/json",
             "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
- },
+          },
           body: JSON.stringify({ token: otp.join("") }),
         }
       );
@@ -130,10 +131,10 @@ const ForgetPasswordPage = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
+        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
         {
           method: "POST",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
             "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
           },
@@ -193,11 +194,10 @@ const ForgetPasswordPage = () => {
                     required
                     value={formData.identifier}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.identifier
+                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.identifier
                         ? "border-red-300 bg-red-50"
                         : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                    }`}
+                      }`}
                     placeholder="Enter your email / phone"
                   />
                 </div>
@@ -236,52 +236,52 @@ const ForgetPasswordPage = () => {
 
       {/* OTP Modal */}
       {showOtpModal && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-      <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-sm">
+            <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
-      <div className="flex justify-center gap-2 mb-4">
-        {[0,1,2,3,4,5].map((i) => (
-          <input
-            key={i}
-            type="text"
-            maxLength={1}
-            className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
-            value={otp[i] || ""}
-            onChange={(e) => {
-              const val = e.target.value.replace(/\D/, "");
-              setOtp(prev => {
-                const newOtp = [...prev];
-                newOtp[i] = val;
-                return newOtp;
-              });
-              if (val && i < 5) {
-                const nextInput = document.querySelector(`input[name=otp-${i+1}]`);
-                nextInput?.focus();
-              }
-            }}
-            name={`otp-${i}`}
-          />
-        ))}
-      </div>
-      {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
-      <button
-        disabled={otp.length !== 6}
-        onClick={handleVerifyOtp}
-        className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
-      >
-        Verify OTP
-      </button>
+            <div className="flex justify-center gap-2 mb-4">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <input
+                  key={i}
+                  type="text"
+                  maxLength={1}
+                  className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                  value={otp[i] || ""}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/, "");
+                    setOtp(prev => {
+                      const newOtp = [...prev];
+                      newOtp[i] = val;
+                      return newOtp;
+                    });
+                    if (val && i < 5) {
+                      const nextInput = document.querySelector(`input[name=otp-${i + 1}]`);
+                      nextInput?.focus();
+                    }
+                  }}
+                  name={`otp-${i}`}
+                />
+              ))}
+            </div>
+            {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
+            <button
+              disabled={otp.length !== 6}
+              onClick={handleVerifyOtp}
+              className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
+            >
+              Verify OTP
+            </button>
 
-      <button
-        onClick={() => setShowOtpModal(false)}
-        className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-)}
+            <button
+              onClick={() => setShowOtpModal(false)}
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Reset Password Modal */}
       {showResetModal && (
@@ -299,13 +299,13 @@ const ForgetPasswordPage = () => {
               type="password"
               value={resetData.confirmPassword}
               onChange={(e) => setResetData({ ...resetData, confirmPassword: e.target.value })}
-            className="w-full border outline-blue-500 px-3 py-2 rounded-lg mb-4"
+              className="w-full border outline-blue-500 px-3 py-2 rounded-lg mb-4"
               placeholder="Confirm Password"
             />
             <button onClick={handleResetPassword}
-              disabled={!resetData.newPassword || !resetData.confirmPassword} 
-            className={` ${resetData.newPassword && resetData.confirmPassword ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed "}  w-full  text-white py-2 rounded-lg`}
-             >
+              disabled={!resetData.newPassword || !resetData.confirmPassword}
+              className={` ${resetData.newPassword && resetData.confirmPassword ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed "}  w-full  text-white py-2 rounded-lg`}
+            >
               Reset Password
             </button>
           </div>

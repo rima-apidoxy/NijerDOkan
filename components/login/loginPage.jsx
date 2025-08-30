@@ -26,7 +26,7 @@ const LoginPage = () => {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
- const isValidEmailOrPhone = (value) => {
+  const isValidEmailOrPhone = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ""));
@@ -56,17 +56,17 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!validateForm()) return;
-    
+
     setLoading(true);
     console.log(formData)
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
-        method: "POST", 
-        headers: { 
+      const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
+        method: "POST",
+        headers: {
           "Content-Type": "application/json",
-          "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z" 
+          "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"
         },
-        body: JSON.stringify(formData), 
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
@@ -132,11 +132,10 @@ const LoginPage = () => {
                     required
                     value={formData.identifier}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.identifier
+                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.identifier
                         ? "border-red-300 bg-red-50"
                         : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                    }`}
+                      }`}
                     placeholder="Enter your email / phone"
                   />
                 </div>
@@ -166,11 +165,10 @@ const LoginPage = () => {
                     required
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.password
+                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.password
                         ? "border-red-300 bg-red-50"
                         : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
-                    }`}
+                      }`}
                     placeholder="Enter your password"
                   />
                   <button
@@ -194,12 +192,12 @@ const LoginPage = () => {
 
               <div className="flex items-center justify-between">
                 <Link href="/auth/forget-password">
-                <button
-                  type="button"
-                  className="text-sm text-blue-600 cursor-pointer hover:underline hover:text-blue-700 font-medium transition-colors duration-200"
-                >
-                  Forgot Password?
-                </button></Link>              </div>
+                  <button
+                    type="button"
+                    className="text-sm text-blue-600 cursor-pointer hover:underline hover:text-blue-700 font-medium transition-colors duration-200"
+                  >
+                    Forgot Password?
+                  </button></Link>              </div>
 
               {/* Submit */}
               <button

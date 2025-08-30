@@ -1,15 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "encrypted-tbn0.gstatic.com",
-      "img4.dhresource.com",
-      "example.com",
-      "static.cilory.com",
-      "via.placeholder.com",
-      "placehold.co"
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000', // match your API port
+        pathname: '/**', // allow all paths
+      },
     ],
   },
+
 };
 
 export default nextConfig;
