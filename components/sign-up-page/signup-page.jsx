@@ -16,7 +16,7 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [otp, setOtp] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(true);
   const [otpError, setOtpError] = useState("");
 
   const router = useRouter()
@@ -79,6 +79,7 @@ const SignupPage = () => {
       });
 
       const data = await response.json();
+      console.log("registration data",data)
       if (response.ok) {
         setShowOtpModal(true);
         alert('We have sent you an OTP. Please enter it to verify your account.');
@@ -99,6 +100,7 @@ const SignupPage = () => {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
+
   return (
     <div className="min-h-screen -mt-8 pt-10 bg-gradient-to-br from-blue-50 via-white to-teal-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -276,13 +278,13 @@ const SignupPage = () => {
             <button
               disabled={otp.length !== 6}
               onClick={async () => {
-
                 const { email, phone } = getEmailPhone(formData.emailOrPhone);
-
+                
                 if (otp.join("").length !== 6) {
                   setOtpError("Enter valid 6-digit OTP");
                   return;
                 }
+                setLoading(true)
                 const payload = {
                   otp: otp.join("")
                 };
@@ -305,18 +307,20 @@ const SignupPage = () => {
                   const data = await response.json();
                   if (response.ok) {
                     alert("Signup & OTP verification successful! You can login now.");
-                    router.push("/")
+                    router.push("/auth/login")
                     setShowOtpModal(false);
                   } else {
                     setOtpError(data.message || "OTP verification failed");
                   }
                 } catch {
                   setOtpError("Network error. Try again.");
+                }finally{
+                  setLoading(false)
                 }
               }}
               className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
             >
-              Verify OTP
+             {loading ?  <div className="w-6 h-6 mx-auto border-2 border-white border-t-transparent rounded-full animate-spin"></div> : " Verify OTP"}
             </button>
 
             <button

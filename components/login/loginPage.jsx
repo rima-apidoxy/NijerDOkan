@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/authContext/useAuth";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const router = useRouter()
+  const { setSessionUser } = useAuth()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +53,6 @@ const LoginPage = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -75,6 +75,7 @@ const LoginPage = () => {
         console.log("✅ Login successful:", data);
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
+        setSessionUser(data?.user)
         alert("Login successful!");
         router.push("/")
       } else {

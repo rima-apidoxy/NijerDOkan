@@ -8,6 +8,7 @@ import CartDropdown from "../cartDropDown/cartDropDown"
 import { useTranslation } from "react-i18next"
 import { WishlistDropdown } from "../wishlistDropdown/wishlistDropdown"
 import { usePathname, useRouter } from "next/navigation"
+import { useAuth } from "@/app/authContext/useAuth"
 
 export function Navbar() {
     const { t } = useTranslation()
@@ -19,8 +20,7 @@ export function Navbar() {
     const [menuData, setMenuData] = useState([])
     const [wishlistOpen, setWishlistOpen] = useState(false)
     const router = useRouter()
-    const [sessionUser, setSessionUser] = useState(null)
-
+    const {sessionUser, setSessionUser} = useAuth()
     const toggleSubcategory = (label) =>
         setOpenSubcategory(openSubcategory === label ? null : label)
 
@@ -49,30 +49,7 @@ export function Navbar() {
             })
     }, [])
 
-    useEffect(() => {
-        const fetchSession = async () => {
-            try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/session`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem("accessToken") || ""}`,
-                        "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
-                    },
-                })
-                const data = await res.json()
-                if (data.success) {
-                    setSessionUser(data.user)
-                } else {
-                    setSessionUser(null)
-                }
-                console.log("Session Response:", data)
-            } catch (err) {
-                console.error("Session fetch error:", err)
-            }
-        }
-        fetchSession()
-    }, [])
+    
 
     const logOut = async () =>{
         try{
@@ -98,7 +75,7 @@ export function Navbar() {
             console.log(error)
         }
     }
-    
+
     return (
         <header className="sticky top-0 z-50 bg-white shadow">
             <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">
