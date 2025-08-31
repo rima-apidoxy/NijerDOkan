@@ -77,7 +77,6 @@ const LoginPage = () => {
         localStorage.setItem("refreshToken", data.refreshToken);
         alert("Login successful!");
         router.push("/")
-        // handle token store or redirect
       } else {
         console.error(" Login failed:", data);
         setErrors({ general: data.message || "Login failed" });
