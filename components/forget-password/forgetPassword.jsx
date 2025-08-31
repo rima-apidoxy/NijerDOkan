@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Mail, ArrowRight, KeyRound, Lock, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
@@ -10,13 +10,33 @@ const ForgetPasswordPage = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const [otpError, setOtpError] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(true);
   const [showResetModal, setShowResetModal] = useState(false);
   const [otp, setOtp] = useState([]);
   const [resetData, setResetData] = useState({ newPassword: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const inputRefs = useRef([]);
 
+  const handleChange = (e, i) => {
+    const val = e.target.value.replace(/\D/, ""); 
+
+    setOtp((prev) => {
+      const newOtp = [...prev];
+      newOtp[i] = val;
+      return newOtp;
+    });
+
+    if (val && i < inputRefs.current.length - 1) {
+      inputRefs.current[i + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (e, i) => {
+    if (e.key === "Backspace" && !otp[i] && i > 0) {
+      inputRefs.current[i - 1].focus();
+    }
+  };
   const isValidEmailOrPhone = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[\+]?[1-9][\d]{6,15}$/;
@@ -59,7 +79,7 @@ const ForgetPasswordPage = () => {
 
     try {
       const response = await fetch(
-        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/forget-password`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/forget-password`,
         {
           method: "POST",
           headers: {
@@ -95,7 +115,7 @@ const ForgetPasswordPage = () => {
     }
     try {
       const response = await fetch(
-        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
         {
           method: "POST",
           headers: { 
@@ -135,7 +155,7 @@ const ForgetPasswordPage = () => {
 
     try {
       const response = await fetch(
-        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
         {
           method: "POST",
           headers: {
@@ -250,24 +270,20 @@ const ForgetPasswordPage = () => {
             <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
             <div className="flex justify-center gap-2 mb-4">
-              {[0,1,2,3,4,5].map((i) => (
-                <input
-                  key={i}
-                  type="text"
-                  maxLength={1}
-                  className="w-10 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
-                  value={otp[i] || ""}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/, "");
-                    setOtp(prev => {
-                      const newOtp = [...prev];
-                      newOtp[i] = val;
-                      return newOtp;
-                    });
-                  }}
-                />
-              ))}
-            </div>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <input
+          key={i}
+          type="text"
+          maxLength={1}
+          ref={(el) => (inputRefs.current[i] = el)} // সব input ref এ store হবে
+          className="w-10 h-12 text-center border border-gray-300 rounded-lg 
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+          value={otp[i] || ""}
+          onChange={(e) => handleChange(e, i)}
+          onKeyDown={(e) => handleKeyDown(e, i)}
+        />
+      ))}
+    </div>
             {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
             <button
               disabled={otp.length !== 6}

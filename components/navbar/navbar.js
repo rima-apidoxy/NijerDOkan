@@ -98,6 +98,7 @@ export function Navbar() {
             console.log(error)
         }
     }
+    
     return (
         <header className="sticky top-0 z-50 bg-white shadow">
             <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">

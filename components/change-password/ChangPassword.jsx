@@ -58,7 +58,7 @@ const ChangPassword = () => {
     const accessToken = localStorage.getItem("accessToken")
     try {
       const response = await fetch(
-        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/change-password`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/change-password`,
         {
           method: "POST",
           headers: {

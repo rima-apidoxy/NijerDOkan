@@ -58,7 +58,7 @@ const ResetPasswordPage = ({ onBackToLogin, resetToken }) => {
 
     try {
       const response = await fetch(
-        `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/reset-password`,
         {
           method: "POST",
           headers: {
