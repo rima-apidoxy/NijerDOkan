@@ -69,7 +69,7 @@ const SignupPage = () => {
     };
     setLoading(true);
     try {
-      const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -294,7 +294,7 @@ const SignupPage = () => {
                 }
 
                 try {
-                  const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
+                  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/${email ? "verify-email" : "verify-phone"}`, {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

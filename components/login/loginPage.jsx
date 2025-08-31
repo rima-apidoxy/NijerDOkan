@@ -61,7 +61,7 @@ const LoginPage = () => {
     setLoading(true);
     console.log(formData)
     try {
-      const response = await fetch(`${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
