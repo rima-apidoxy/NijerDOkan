@@ -90,10 +90,7 @@ const ForgetPasswordPage = () => {
     setLoading(true);
     if (otp.join("").length !== 6) {
       setOtpError("Enter valid 6-digit OTP");
-<<<<<<< HEAD
-=======
       setLoading(false);
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
       return;
     }
     try {
@@ -101,13 +98,8 @@ const ForgetPasswordPage = () => {
         `${process.envNEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
         {
           method: "POST",
-<<<<<<< HEAD
-          headers: {
-            "Content-Type": "application/json",
-=======
           headers: { 
             "Content-Type": "application/json", 
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
             "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
           },
           body: JSON.stringify({ token: otp.join("") }),
@@ -253,21 +245,12 @@ const ForgetPasswordPage = () => {
 
       {/* OTP Modal */}
       {showOtpModal && (
-<<<<<<< HEAD
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
-
-            <div className="flex justify-center gap-2 mb-4">
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-=======
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm  shadow-lg overflow-y-auto max-h-[90vh]">
             <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
             <div className="flex justify-center gap-2 mb-4">
               {[0,1,2,3,4,5].map((i) => (
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
                 <input
                   key={i}
                   type="text"
@@ -281,16 +264,7 @@ const ForgetPasswordPage = () => {
                       newOtp[i] = val;
                       return newOtp;
                     });
-<<<<<<< HEAD
-                    if (val && i < 5) {
-                      const nextInput = document.querySelector(`input[name=otp-${i + 1}]`);
-                      nextInput?.focus();
-                    }
                   }}
-                  name={`otp-${i}`}
-=======
-                  }}
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
                 />
               ))}
             </div>
@@ -298,17 +272,11 @@ const ForgetPasswordPage = () => {
             <button
               disabled={otp.length !== 6}
               onClick={handleVerifyOtp}
-<<<<<<< HEAD
-              className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
-            >
-              Verify OTP
-=======
               className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors text-center`}
             >
               {
                 loading? <div className=" mx-auto w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Verify OTP"
               }
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
             </button>
 
             <button
@@ -323,30 +291,6 @@ const ForgetPasswordPage = () => {
 
       {/* Reset Password Modal */}
       {showResetModal && (
-<<<<<<< HEAD
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm">
-            <h2 className="text-lg font-semibold mb-4">Reset Password</h2>
-            <input
-              type="password"
-              value={resetData.newPassword}
-              onChange={(e) => setResetData({ ...resetData, newPassword: e.target.value })}
-              className="w-full border px-3 outline-blue-500 py-2 rounded-lg mb-3"
-              placeholder="New Password"
-            />
-            <input
-              type="password"
-              value={resetData.confirmPassword}
-              onChange={(e) => setResetData({ ...resetData, confirmPassword: e.target.value })}
-              className="w-full border outline-blue-500 px-3 py-2 rounded-lg mb-4"
-              placeholder="Confirm Password"
-            />
-            <button onClick={handleResetPassword}
-              disabled={!resetData.newPassword || !resetData.confirmPassword}
-              className={` ${resetData.newPassword && resetData.confirmPassword ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed "}  w-full  text-white py-2 rounded-lg`}
-            >
-              Reset Password
-=======
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm  overflow-y-auto max-h-[90vh]">
             <h2 className="text-lg font-semibold mb-4 text-center">Reset Password</h2>
@@ -455,7 +399,6 @@ const ForgetPasswordPage = () => {
               ) : (
                 "Reset Password"
               )}
->>>>>>> 993c1d79311c5fef5cd24f155d5572284b2b4940
             </button>
           </div>
         </div>
