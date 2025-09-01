@@ -15,12 +15,13 @@ const SignupPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [otp, setOtp] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(true);
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [otpError, setOtpError] = useState("");
 
+  const isOtpComplete = otp.every((digit) => digit !== "");
   const router = useRouter()
-  // Validate email or phone without changing state
+
   const getEmailPhone = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
@@ -276,7 +277,8 @@ const SignupPage = () => {
             </div>
             {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
             <button
-              disabled={otp.length !== 6}
+                disabled={!isOtpComplete}
+
               onClick={async () => {
                 const { email, phone } = getEmailPhone(formData.emailOrPhone);
                 
@@ -288,7 +290,7 @@ const SignupPage = () => {
                 const payload = {
                   otp: otp.join("")
                 };
-
+                console.log(payload)
                 if (email) {
                   payload.email = email;
                 } else {
@@ -318,7 +320,9 @@ const SignupPage = () => {
                   setLoading(false)
                 }
               }}
-              className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
+              className={`${
+            isOtpComplete ? "bg-blue-600" : "bg-gray-400 cursor-not-allowed"
+            }  w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors`}
             >
              {loading ?  <div className="w-6 h-6 mx-auto border-2 border-white border-t-transparent rounded-full animate-spin"></div> : " Verify OTP"}
             </button>
