@@ -50,7 +50,7 @@ export default function ProductDetail({ params }) {
             isMounted = false;
         };
     }, []);
-    console.log(product)
+console.log(product)
 
     const handleAddToCart = async () => {
         console.log("helloooooooooooooooooooooooo")
@@ -71,8 +71,8 @@ export default function ProductDetail({ params }) {
                     "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
                 },
                 body: JSON.stringify({
-                    productId: product.id.toString(),
-                    variantId: product.variants?.[0]?.options?.[0]?._id,
+                    productId: product._id,
+                    variantId: product.variants?.[0]?._id || null,
                     quantity: 1,
                 }),
             });
