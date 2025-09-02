@@ -254,11 +254,11 @@ export default function CheckoutDetail() {
                     <div className="border-b pb-2">
                         <p className="text-lg font-semibold mb-2">Delivery Charge</p>
                         <RadioGroup
-                            value={selectedDeliveryOptionId} // 🔹 Changed
+                            value={selectedDeliveryOptionId} 
                             onValueChange={(val) => {
                                 const selected = deliveryOptions.find((d) => d._id === val)
                                 setDeliveryCharge(selected?.charge || 0)
-                                setSelectedDeliveryOptionId(val) // 🔹 Changed
+                                setSelectedDeliveryOptionId(val)
                             }}
                             className="space-y-2"
                         >

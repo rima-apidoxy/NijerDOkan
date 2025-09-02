@@ -3,38 +3,47 @@
 import { ShoppingCart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-
-const cartItems = [
-    {
-        id: 1,
-        name: "Floral Summer Top",
-        price: 49.99,
-        quantity: 1,
-        image: "/images/floral-top.jpg",
-    },
-    {
-        id: 2,
-        name: "Denim Jeans",
-        price: 69.99,
-        quantity: 2,
-        image: "/images/denim-jeans.jpg",
-    },
-]
+import { useEffect, useState } from "react"
 
 export default function CartDropdown() {
-    const total = cartItems.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0
-    )
+    const [cart, setCart] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        const fetchCart = async () => {
+            const accessToken = localStorage.getItem("accessToken")
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/cart`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
+                    },
+                })
+                const data = await res.json()
+                if (!res.ok) throw new Error(data.error || "Failed to fetch cart")
+                setCart(data.data || null)
+            } catch (err) {
+                setError(err.message)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchCart()
+    }, [])
+
+    const items = cart?.items || []
+    const total = cart?.totals?.grandTotal || 0
 
     return (
         <div className="relative group">
             {/* Cart Icon */}
             <div className="cursor-pointer relative">
                 <ShoppingCart className="w-6 h-6 text-blue-600" />
-                {cartItems.length > 0 && (
+                {items.length > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
-                        {cartItems.length}
+                        {items.length}
                     </span>
                 )}
             </div>
@@ -44,18 +53,22 @@ export default function CartDropdown() {
                 <div className="p-4 space-y-4">
                     <h4 className="font-bold text-lg text-gray-800">Your Cart</h4>
 
-                    {cartItems.length === 0 ? (
+                    {loading ? (
+                        <p className="text-sm text-gray-500">Loading...</p>
+                    ) : error ? (
+                        <p className="text-sm text-red-500">{error}</p>
+                    ) : items.length === 0 ? (
                         <p className="text-sm text-gray-500">Cart is empty</p>
                     ) : (
                         <>
-                            {cartItems.map((item) => (
+                            {items.map((item) => (
                                 <div
-                                    key={item.id}
+                                    key={item.productId}
                                     className="flex gap-3 border-b pb-3 items-center"
                                 >
                                     <Image
-                                        src={item.image}
-                                        alt={item.name}
+                                        src={item.image || "/images/black-shirt.jpg"}
+                                        alt={item.productTitle || "Product Image"}
                                         width={56}
                                         height={56}
                                         className="w-14 h-14 object-cover rounded"
@@ -63,14 +76,14 @@ export default function CartDropdown() {
 
                                     <div className="flex-1">
                                         <p className="font-medium text-gray-800 text-sm">
-                                            {item.name}
+                                            {item.productTitle}
                                         </p>
                                         <div className="flex justify-between text-xs text-gray-600">
                                             <span>
-                                                ৳{item.price.toFixed(2)} × {item.quantity}
+                                                ৳{item.subtotal} × {item.quantity}
                                             </span>
                                             <span className="font-semibold text-gray-800">
-                                                ৳{(item.price * item.quantity).toFixed(2)}
+                                                ৳{(item.subtotal * item.quantity).toFixed(2)}
                                             </span>
                                         </div>
                                     </div>
@@ -82,15 +95,12 @@ export default function CartDropdown() {
                                 <span>৳{total.toFixed(2)}</span>
                             </div>
 
-
                             <Link
                                 href="/myCart"
                                 className="w-full mt-4 bg-blue-700 hover:bg-blue-800 text-white inline-block text-center py-2 rounded"
                             >
                                 View Cart
                             </Link>
-
-
                         </>
                     )}
                 </div>
