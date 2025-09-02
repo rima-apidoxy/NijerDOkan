@@ -19,8 +19,9 @@ export function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [menuData, setMenuData] = useState([])
     const [wishlistOpen, setWishlistOpen] = useState(false)
+    const [searchTerm, setSearchTerm] = useState("");
     const router = useRouter()
-    const {sessionUser, setSessionUser} = useAuth()
+    const { sessionUser, setSessionUser } = useAuth()
     const toggleSubcategory = (label) =>
         setOpenSubcategory(openSubcategory === label ? null : label)
 
@@ -49,29 +50,29 @@ export function Navbar() {
             })
     }, [])
 
-    
 
-    const logOut = async () =>{
-        try{
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/logout`,{
-                method:"POST",
-                headers:{
-                    "Content-type" : "application/json",
+
+    const logOut = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/logout`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
                     "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
-                    "Authorization" : `Bearer ${localStorage.getItem("accessToken")}`
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
                 }
             })
             const data = await res.json();
-            console.log("Logout Response:",data)
-            if(res.ok){
+            console.log("Logout Response:", data)
+            if (res.ok) {
                 alert("Logout Successful")
                 router.push("/auth/signup");
                 localStorage.removeItem("accessToken")
                 setSessionUser(null)
-            }else{
+            } else {
                 alert(data.message || "Logout failed");
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -80,19 +81,26 @@ export function Navbar() {
         <header className="sticky top-0 z-50 bg-white shadow">
             <div className="w-11/12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-3 gap-4">
                 <h2 className="text-blue-600 font-extrabold text-xl">
-                    My Website
+                    Nijer Dokan
                 </h2>
                 <div className="relative flex-grow w-full md:max-w-lg">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600" />
                     <Input
                         type="search"
                         placeholder={t("search_placeholder")}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && searchTerm.trim() !== "") {
+                                router.push(`/shop/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                            }
+                        }}
                         className="bg-blue-50 border-0 rounded-full pl-10 pr-10 py-2 focus:ring-2 focus:ring-blue-400 w-full"
                     />
                     <TableOfContents className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600 rotate-180 cursor-pointer" />
                 </div>
                 <div className="flex items-center gap-4 md:gap-6 text-gray-700 relative">
-                
+
                     {pathname !== "/wishlist" && (
                         <div
                             className="relative flex items-center cursor-pointer hover:text-blue-600"
@@ -130,16 +138,16 @@ export function Navbar() {
                         </span>
                     </Link>
                     {
-                        sessionUser ? 
-                <button onClick={logOut} className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
-                    <LogOut className="text-blue-600" />
-                    <h6>{t('logout')}</h6>
-                </button> : <Link href="/auth/signup" className="flex items-center gap-2 hover:text-blue-600">
-                        <User className="text-blue-600" />
-                        <span className="text-sm md:font-semibold">
-                            {sessionUser ? sessionUser.name : `${t("register")}/ ${t("login")}`}
-                        </span>
-                    </Link>
+                        sessionUser ?
+                            <button onClick={logOut} className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
+                                <LogOut className="text-blue-600" />
+                                <h6>{t('logout')}</h6>
+                            </button> : <Link href="/auth/signup" className="flex items-center gap-2 hover:text-blue-600">
+                                <User className="text-blue-600" />
+                                <span className="text-sm md:font-semibold">
+                                    {sessionUser ? sessionUser.name : `${t("register")}/ ${t("login")}`}
+                                </span>
+                            </Link>
                     }
                 </div>
             </div>
