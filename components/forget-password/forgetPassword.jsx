@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { Mail, ArrowRight, KeyRound, Lock, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ForgetPasswordPage = () => {
   const [formData, setFormData] = useState({ identifier: "" });
@@ -10,13 +11,14 @@ const ForgetPasswordPage = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const [otpError, setOtpError] = useState("");
-  const [showOtpModal, setShowOtpModal] = useState(true);
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [otp, setOtp] = useState([]);
   const [resetData, setResetData] = useState({ newPassword: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const inputRefs = useRef([]);
+  const router = useRouter()
 
   const handleChange = (e, i) => {
     const val = e.target.value.replace(/\D/, ""); 
@@ -173,6 +175,7 @@ const ForgetPasswordPage = () => {
         setResetData({ newPassword: "", confirmPassword: "" });
         setOtp([]);
         setFormData({ identifier: "" });
+        router.push("/auth/login")
       } else {
         alert(data.message || "Failed to reset password");
       }
