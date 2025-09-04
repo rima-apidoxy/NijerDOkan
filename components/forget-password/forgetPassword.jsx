@@ -21,7 +21,7 @@ const ForgetPasswordPage = () => {
   const router = useRouter()
 
   const handleChange = (e, i) => {
-    const val = e.target.value.replace(/\D/, ""); 
+    const val = e.target.value.replace(/\D/, "");
 
     setOtp((prev) => {
       const newOtp = [...prev];
@@ -86,7 +86,7 @@ const ForgetPasswordPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
+            "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
           },
           body: JSON.stringify(payload),
         }
@@ -120,9 +120,9 @@ const ForgetPasswordPage = () => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/verify-forget-token`,
         {
           method: "POST",
-          headers: { 
-            "Content-Type": "application/json", 
-            "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
+          headers: {
+            "Content-Type": "application/json",
+            "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
           },
           body: JSON.stringify({ token: otp.join("") }),
         }
@@ -162,7 +162,7 @@ const ForgetPasswordPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z",
+            "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
           },
           body: JSON.stringify(payload),
         }
@@ -227,8 +227,8 @@ const ForgetPasswordPage = () => {
                     value={formData.identifier}
                     onChange={handleInputChange}
                     className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.identifier
-                        ? "border-red-300 bg-red-50"
-                        : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
                       }`}
                     placeholder="Enter your email / phone"
                   />
@@ -273,20 +273,20 @@ const ForgetPasswordPage = () => {
             <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
 
             <div className="flex justify-center gap-2 mb-4">
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <input
-          key={i}
-          type="text"
-          maxLength={1}
-          ref={(el) => (inputRefs.current[i] = el)} // সব input ref এ store হবে
-          className="w-10 h-12 text-center border border-gray-300 rounded-lg 
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <input
+                  key={i}
+                  type="text"
+                  maxLength={1}
+                  ref={(el) => (inputRefs.current[i] = el)} // সব input ref এ store হবে
+                  className="w-10 h-12 text-center border border-gray-300 rounded-lg 
                      focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
-          value={otp[i] || ""}
-          onChange={(e) => handleChange(e, i)}
-          onKeyDown={(e) => handleKeyDown(e, i)}
-        />
-      ))}
-    </div>
+                  value={otp[i] || ""}
+                  onChange={(e) => handleChange(e, i)}
+                  onKeyDown={(e) => handleKeyDown(e, i)}
+                />
+              ))}
+            </div>
             {otpError && <p className="text-red-600 text-sm mb-2">{otpError}</p>}
             <button
               disabled={otp.length !== 6}
@@ -294,7 +294,7 @@ const ForgetPasswordPage = () => {
               className={`${otp.length !== 6 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} w-full text-white py-3 rounded-lg mt-4 mb-2 transition-colors text-center`}
             >
               {
-                loading? <div className=" mx-auto w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Verify OTP"
+                loading ? <div className=" mx-auto w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Verify OTP"
               }
             </button>
 
@@ -362,41 +362,37 @@ const ForgetPasswordPage = () => {
               <ul className="text-xs text-gray-600 space-y-1">
                 <li className="flex items-center">
                   <div
-                    className={`w-2 h-2 rounded-full mr-2 ${
-                      resetData.newPassword.length >= 6
+                    className={`w-2 h-2 rounded-full mr-2 ${resetData.newPassword.length >= 6
                         ? "bg-green-500"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   At least 6 characters
                 </li>
                 <li className="flex items-center">
                   <div
-                    className={`w-2 h-2 rounded-full mr-2 ${
-                      /(?=.*[a-z])/.test(resetData.newPassword)
+                    className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[a-z])/.test(resetData.newPassword)
                         ? "bg-green-500"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   One lowercase letter
                 </li>
                 <li className="flex items-center">
                   <div
-                    className={`w-2 h-2 rounded-full mr-2 ${
-                      /(?=.*[A-Z])/.test(resetData.newPassword)
+                    className={`w-2 h-2 rounded-full mr-2 ${/(?=.*[A-Z])/.test(resetData.newPassword)
                         ? "bg-green-500"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   One uppercase letter
                 </li>
                 <li className="flex items-center">
                   <div
-                    className={`w-2 h-2 rounded-full mr-2 ${
-                      /(?=.*\d)/.test(resetData.newPassword)
+                    className={`w-2 h-2 rounded-full mr-2 ${/(?=.*\d)/.test(resetData.newPassword)
                         ? "bg-green-500"
                         : "bg-gray-300"
-                    }`}
+                      }`}
                   ></div>
                   One number
                 </li>
@@ -407,11 +403,10 @@ const ForgetPasswordPage = () => {
             <button
               onClick={handleResetPassword}
               disabled={!resetData.newPassword || !resetData.confirmPassword}
-              className={`${
-                resetData.newPassword && resetData.confirmPassword
+              className={`${resetData.newPassword && resetData.confirmPassword
                   ? "bg-blue-600"
                   : "bg-gray-400 cursor-not-allowed"
-              } w-full text-white py-2 rounded-lg`}
+                } w-full text-white py-2 rounded-lg`}
             >
               {loading ? (
                 <div className="mx-auto w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

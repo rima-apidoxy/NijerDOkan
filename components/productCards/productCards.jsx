@@ -3,16 +3,22 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Badge } from "@/components/ui/badge"
+import { ShoppingCart, Star, Truck, Heart } from "lucide-react"
+// import { useToast } from "@/components/ui/use-toast"
 
 export function ProductCards() {
     const [categories, setCategories] = useState([])
     const [productsByCategory, setProductsByCategory] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [addingToCart, setAddingToCart] = useState(new Set())
 
-    const vendorIdentifier = 'cmefk8met0003609worbmn4v0'
+    // const { toast } = useToast()
+    // const vendorIdentifier = 'cmefk8met0003609worbmn4v0'
 
     // Fetch categories
     useEffect(() => {
@@ -20,7 +26,7 @@ export function ProductCards() {
             try {
                 setLoading(true)
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/categories`, {
-                    headers: { 'x-vendor-identifier': vendorIdentifier }
+                    // headers: { 'x-vendor-identifier': vendorIdentifier }
                 })
                 const data = await res.json()
                 if (data.success) setCategories(data.data)
@@ -43,7 +49,7 @@ export function ProductCards() {
                 const temp = {}
                 await Promise.all(categories.map(async (cat) => {
                     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/products?category=${cat._id}&limit=10`, {
-                        headers: { 'x-vendor-identifier': vendorIdentifier }
+                        // headers: { 'x-vendor-identifier': vendorIdentifier }
                     })
                     const data = await res.json()
                     temp[cat._id] = data.success ? data.data : []
@@ -60,19 +66,27 @@ export function ProductCards() {
 
     const formatPrice = (price, currency = 'TK') => `${currency}. ${price.toLocaleString()}`
 
+
+
+    const calculateDiscount = (base, compareAt) => {
+        if (!compareAt || compareAt <= base) return 0
+        return Math.round(((compareAt - base) / compareAt) * 100)
+    }
+
     if (loading) {
         return (
             <div className="w-11/12 md:w-10/12 mx-auto my-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10">
-                    {[...Array(5)].map((_, index) => (
-                        <Card key={index} className="w-full max-w-sm shadow-md">
-                            <CardHeader className="bg-gray-100 px-8 rounded-t-lg">
-                                <Skeleton className="h-32 w-full rounded-lg" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-10">
+                    {[...Array(10)].map((_, index) => (
+                        <Card key={index} className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500">
+                            <CardHeader className="p-0 relative">
+                                <Skeleton className="h-48 w-full" />
                             </CardHeader>
                             <CardContent className="p-4">
-                                <Skeleton className="h-6 w-3/4 mb-2" />
-                                <Skeleton className="h-4 w-1/2 mb-2" />
-                                <Skeleton className="h-4 w-2/3" />
+                                <Skeleton className="h-6 w-3/4 mb-3" />
+                                <Skeleton className="h-5 w-1/2 mb-3" />
+                                <Skeleton className="h-4 w-2/3 mb-4" />
+                                <Skeleton className="h-10 w-full" />
                             </CardContent>
                         </Card>
                     ))}
@@ -84,14 +98,20 @@ export function ProductCards() {
     if (error) {
         return (
             <div className="w-11/12 md:w-10/12 mx-auto my-8">
-                <div className="text-center py-12">
-                    <p className="text-red-500 mb-4">Error: {error}</p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                    >
-                        Try Again
-                    </button>
+                <div className="text-center py-16 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl border border-red-200">
+                    <div className="max-w-md mx-auto">
+                        <div className="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span className="text-red-600 text-3xl">⚠️</span>
+                        </div>
+                        <h3 className="text-xl font-semibold text-red-800 mb-2">Oops! Something went wrong</h3>
+                        <p className="text-red-600 mb-6">{error}</p>
+                        <Button
+                            onClick={() => window.location.reload()}
+                            className="bg-red-600 hover:bg-red-700 text-white transition-colors"
+                        >
+                            Try Again
+                        </Button>
+                    </div>
                 </div>
             </div>
         )
@@ -104,82 +124,147 @@ export function ProductCards() {
                 if (!products.length) return null
 
                 return (
-                    <div key={cat._id} className="mb-12">
-                        <div className="flex items-center justify-between mb-6 border-b">
-                            <h2 className="text-2xl font-bold text-gray-800 border-b-3 border-b-blue-600">
-                                {cat.title}
-                            </h2>
+                    <div key={cat._id} className="mb-16">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="relative">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-1">
+                                    {cat.title}
+                                </h2>
+                                <div className="h-1 w-16 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"></div>
+                            </div>
                             <Link
                                 href={`/shop?category=${encodeURIComponent(cat.slug)}`}
-                                className="text-blue-600 hover:underline font-medium text-sm"
+                                className="group flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
                             >
                                 View All
+                                <span className="transform transition-transform group-hover:translate-x-1">→</span>
                             </Link>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-10">
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                             {products.map(product => {
                                 const savings = product.price.compareAt ? product.price.compareAt - product.price.base : 0
+                                const discountPercentage = calculateDiscount(product.price.base, product.price.compareAt)
+                                const isAddingToCart = addingToCart.has(product.id)
 
                                 return (
-                                    <Link
-                                        key={product.id}
-                                        href={`/product/${product.id}`}
-                                        className="w-full max-w-sm"
-                                    >
-                                        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-                                            <CardHeader className="bg-gray-100 px-8 rounded-t-lg relative">
-                                                <div className="flex justify-center">
-                                                    <Image
-                                                        src={product.thumbnail || product.gallery?.[0]}
-                                                        alt={product.title}
-                                                        width={120}
-                                                        height={120}
-                                                        className="rounded-lg object-cover"
-                                                        onError={(e) => { e.target.src = "/images/placeholder-product.png" }}
-                                                    />
+                                    <div key={product.id} className="group relative">
+                                        <Card className="overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white">
+                                            {/* Discount Badge */}
+                                            {discountPercentage > 0 && (
+                                                <div className="absolute top-3 left-3 z-20">
+                                                    <Badge className="bg-red-500 text-white font-semibold px-2 py-1 text-xs">
+                                                        -{discountPercentage}%
+                                                    </Badge>
                                                 </div>
-                                            </CardHeader>
-                                            <CardContent className="p-4">
-                                                <CardTitle className="text-lg font-semibold mb-2 line-clamp-1">
-                                                    {product.title}
-                                                </CardTitle>
+                                            )}
 
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <span className="text-black font-bold text-md">
-                                                        {formatPrice(product.price.base, product.price.currency)}
-                                                    </span>
-                                                    {product.price.compareAt && product.price.compareAt > product.price.base && (
-                                                        <span className="line-through text-gray-400 text-sm">
-                                                            {formatPrice(product.price.compareAt, product.price.currency)}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                            {/* Wishlist Button */}
+                                            {/* <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="absolute top-3 right-3 z-20 bg-white/80 hover:bg-white hover:text-red-500 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    e.stopPropagation()
+                                                }}
+                                            >
+                                                <Heart className="h-4 w-4" />
+                                            </Button> */}
 
-                                                {savings > 0 && (
-                                                    <p className="text-green-600 text-md pt-2 font-medium border-t">
-                                                        Save - {formatPrice(savings, product.price.currency)}
-                                                    </p>
-                                                )}
-
-                                                {product.ratings.count > 0 && (
-                                                    <div className="flex items-center gap-1 mt-2">
-                                                        <div className="flex text-yellow-400">
-                                                            {[...Array(5)].map((_, i) => (
-                                                                <span key={i}>{i < Math.round(product.ratings.average) ? "★" : "☆"}</span>
-                                                            ))}
-                                                        </div>
-                                                        <span className="text-sm text-gray-500">
-                                                            ({product.ratings.count})
-                                                        </span>
+                                            <Link href={`/product/${product.id}`} className="block">
+                                                <CardHeader className="p-0 relative">
+                                                    <div className="relative h-44 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
+                                                        {/* <Image
+                                                            src={product.thumbnail || product.gallery?.[0] || "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg"}
+                                                            alt={product.title}
+                                                            fill
+                                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                                            onError={(e) => {
+                                                                e.currentTarget.src = "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg"
+                                                            }}
+                                                        /> */}
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     </div>
-                                                )}
+                                                </CardHeader>
 
-                                                {product.hasFreeShipment && (
-                                                    <p className="text-blue-600 text-sm mt-2">Free Shipping</p>
-                                                )}
-                                            </CardContent>
+                                                <CardContent className="">
+                                                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                                                        {product.title}
+                                                    </h3>
+
+                                                    {/* Rating */}
+                                                    {product.ratings.count > 0 && (
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <div className="flex items-center">
+                                                                {[...Array(5)].map((_, i) => (
+                                                                    <Star
+                                                                        key={i}
+                                                                        className={`h-3 w-3 ${i < Math.round(product.ratings.average)
+                                                                            ? "fill-yellow-400 text-yellow-400"
+                                                                            : "text-gray-300"
+                                                                            }`}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                            <span className="text-sm text-gray-500">
+                                                                ({product.ratings.count})
+                                                            </span>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Price Section */}
+                                                    <div className="mb-4">
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <span className="text-xl font-bold text-gray-900">
+                                                                {formatPrice(product.price.base, product.price.currency)}
+                                                            </span>
+                                                            {product.price.compareAt && product.price.compareAt > product.price.base && (
+                                                                <span className="text-sm text-gray-500 line-through">
+                                                                    {formatPrice(product.price.compareAt, product.price.currency)}
+                                                                </span>
+                                                            )}
+                                                        </div>
+
+                                                        {savings > 0 && (
+                                                            <p className="text-green-600 text-sm font-medium">
+                                                                Save {formatPrice(savings, product.price.currency)}
+                                                            </p>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Free Shipping Badge */}
+                                                    {product.hasFreeShipment && (
+                                                        <div className="flex items-center gap-1 mb-4">
+                                                            <Truck className="h-3 w-3 text-green-600" />
+                                                            <span className="text-xs text-green-600 font-medium">Free Shipping</span>
+                                                        </div>
+                                                    )}
+                                                </CardContent>
+                                            </Link>
+
+                                            {/* Add to Cart Button */}
+                                            <div className="px-5 pb-5">
+                                                <Button
+                                                    // onClick={(e) => handleAddToCart(product, e)}
+                                                    disabled={isAddingToCart}
+                                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
+                                                >
+                                                    {isAddingToCart ? (
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                            Adding...
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex items-center gap-2">
+                                                            <ShoppingCart className="h-4 w-4" />
+                                                            Add to Cart
+                                                        </div>
+                                                    )}
+                                                </Button>
+                                            </div>
                                         </Card>
-                                    </Link>
+                                    </div>
                                 )
                             })}
                         </div>

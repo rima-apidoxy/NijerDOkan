@@ -10,16 +10,15 @@ export default function CategoryCards() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    const vendorIdentifier = 'cmefk8met0003609worbmn4v0' // replace with your vendor id
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 setLoading(true)
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/categories`, {
-                    headers: {
-                        'x-vendor-identifier': vendorIdentifier
-                    }
+                    // headers: {
+                    //     'x-vendor-identifier': vendorIdentifier
+                    // }
                 })
                 const data = await res.json()
                 if (data.success) {
