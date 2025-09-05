@@ -65,7 +65,6 @@ const LoginPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-vendor-identifier": "cmev38g4z000064vhktlpkq9z"
         },
         body: JSON.stringify(formData),
       });
@@ -134,8 +133,8 @@ const LoginPage = () => {
                     value={formData.identifier}
                     onChange={handleInputChange}
                     className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.identifier
-                        ? "border-red-300 bg-red-50"
-                        : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
                       }`}
                     placeholder="Enter your email / phone"
                   />
@@ -167,8 +166,8 @@ const LoginPage = () => {
                     value={formData.password}
                     onChange={handleInputChange}
                     className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.password
-                        ? "border-red-300 bg-red-50"
-                        : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
+                      ? "border-red-300 bg-red-50"
+                      : "border-gray-300 bg-gray-50 hover:bg-white focus:bg-white"
                       }`}
                     placeholder="Enter your password"
                   />

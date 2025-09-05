@@ -175,15 +175,15 @@ export function ProductCards() {
                                             <Link href={`/product/${product.id}`} className="block">
                                                 <CardHeader className="p-0 relative">
                                                     <div className="relative h-44 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-                                                        {/* <Image
-                                                            src={product.thumbnail || product.gallery?.[0] || "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg"}
+                                                        <Image
+                                                            src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${product.shop}/${product.gallery?.[0]?.fileName}`}
                                                             alt={product.title}
                                                             fill
                                                             className="object-cover group-hover:scale-110 transition-transform duration-700"
                                                             onError={(e) => {
-                                                                e.currentTarget.src = "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg"
+                                                                e.currentTarget.src = "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg";
                                                             }}
-                                                        /> */}
+                                                        />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     </div>
                                                 </CardHeader>

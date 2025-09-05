@@ -27,7 +27,6 @@ export default function CartTable() {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
-                    "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
                 },
             });
             const data = await res.json();
@@ -106,14 +105,14 @@ export default function CartTable() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {cart.items.map((item) => (
-                            <TableRow key={item.productId}>
+                        {cart.items.map((item, index) => (
+                            <TableRow key={index}>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
                                         <div className="relative w-16 h-16 border rounded">
                                             {item.image && (
                                                 <Image
-                                                    src={item.image}
+                                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${cart.shop}/${item.image}`}
                                                     alt={item.productTitle}
                                                     fill
                                                     className="object-cover"

@@ -35,7 +35,6 @@ export default function CartDropdown() {
 
     const items = cart?.items || []
     const total = cart?.totals?.grandTotal || 0
-
     return (
         <div className="relative group">
             {/* Cart Icon */}
@@ -61,13 +60,13 @@ export default function CartDropdown() {
                         <p className="text-sm text-gray-500">Cart is empty</p>
                     ) : (
                         <>
-                            {items.map((item) => (
+                            {items.map((item, index) => (
                                 <div
-                                    key={item.productId}
+                                    key={index}
                                     className="flex gap-3 border-b pb-3 items-center"
                                 >
                                     <Image
-                                        src={item.image || "/images/black-shirt.jpg"}
+                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${cart.shop}/${item.image}`}
                                         alt={item.productTitle || "Product Image"}
                                         width={56}
                                         height={56}

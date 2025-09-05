@@ -5,6 +5,7 @@ import Footer from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import AuthProvider from './authContext/AuthProvider';
 // import { SiteProvider } from '@/components/siteContext';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +35,10 @@ export default function RootLayout({ children }) {
             {children}
             <Footer></Footer>
           </Providers>
-        {/* </SiteProvider> */}
+          {/* </SiteProvider> */}
         </AuthProvider>
 
+        <Toaster />
 
       </body>
     </html>
