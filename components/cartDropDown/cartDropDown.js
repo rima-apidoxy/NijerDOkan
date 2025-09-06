@@ -18,7 +18,6 @@ export default function CartDropdown() {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${accessToken}`,
-                        "x-vendor-identifier": "cmefk8met0003609worbmn4v0",
                     },
                 })
                 const data = await res.json()
@@ -79,10 +78,10 @@ export default function CartDropdown() {
                                         </p>
                                         <div className="flex justify-between text-xs text-gray-600">
                                             <span>
-                                                ৳{item.subtotal} × {item.quantity}
+                                                ৳{item?.price} × {item.quantity}
                                             </span>
                                             <span className="font-semibold text-gray-800">
-                                                ৳{(item.subtotal * item.quantity).toFixed(2)}
+                                                ৳{(item.subtotal).toFixed(2)}
                                             </span>
                                         </div>
                                     </div>
