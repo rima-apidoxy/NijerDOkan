@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 export default function CartPage() {
     const [cart, setCart] = useState(null);
@@ -60,7 +61,7 @@ export default function CartPage() {
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to update cart");
-            await fetchCart(); // refresh cart
+            await fetchCart();
         } catch (err) {
             alert(err.message);
         }
@@ -295,9 +296,9 @@ export default function CartPage() {
                                     </div>
                                 </div>
 
-                                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
+                                <Link href="/checkout" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
                                     Proceed to Checkout
-                                </Button>
+                                </Link>
 
                             </CardContent>
                         </Card>

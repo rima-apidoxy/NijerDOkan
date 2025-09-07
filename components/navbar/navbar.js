@@ -30,8 +30,8 @@ export function Navbar() {
         { label: "Shop", href: "/shop" },
         { label: "My Account", href: "/myAccount" },
         { label: "Categories", href: "/categories" },
-        { label: "FAQ", href: "/faq" },
-        { label: "Contact Us", href: "/contact" },
+        // { label: "FAQ", href: "/faq" },
+        // { label: "Contact Us", href: "/contact" },
     ]
 
     useEffect(() => {

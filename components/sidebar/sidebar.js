@@ -23,7 +23,7 @@ export default function Sidebar() {
                     <ShoppingBag />
                     <h6>{t('my_orders')}</h6>
                 </Link>
-                <Link href="/myAccount/myWishlist" className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
+                {/* <Link href="/myAccount/myWishlist" className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
                     <Heart />
                     <h6>{t('wishlist')}</h6>
                 </Link>
@@ -34,7 +34,7 @@ export default function Sidebar() {
                 <Link href="/myAccount/themes" className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
                     <Palette />
                     <h6>{t('themes')}</h6>
-                </Link>
+                </Link> */}
                 <Link href="/myAccount/language" className="text-left text-gray-700 font-semibold text-sm flex gap-2 hover:text-blue-600">
                     <Languages />
                     <h6>{t('language')}</h6>

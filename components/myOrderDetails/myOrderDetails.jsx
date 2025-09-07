@@ -53,7 +53,7 @@ export default function MyOrderDetails({ orders, loading }) {
                             <div key={item.productId} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4 last:border-none last:pb-0">
                                 <div className="flex items-center gap-4">
                                     <Image
-                                        src="/images/black-shirt.jpg" // 
+                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${order.shop}/${item.image}`}
                                         alt={item.title}
                                         width={60}
                                         height={60}
@@ -66,12 +66,12 @@ export default function MyOrderDetails({ orders, loading }) {
                                         <p className="text-sm text-gray-600">Total: ৳{item.total}</p>
                                     </div>
                                 </div>
-                                <Link
+                                {/* <Link
                                     href={`/myAccount/orderDetails/${order._id}`}
                                     className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm"
                                 >
                                     View Detail
-                                </Link>
+                                </Link> */}
                             </div>
                         ))}
 

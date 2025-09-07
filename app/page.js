@@ -8,7 +8,7 @@ import TopCategories from "@/components/topCategories/topCategories";
 export default function Home() {
   return (
     <div>
-      <Slider></Slider>
+      {/* <Slider></Slider> */}
       <ProductCards />
       {/* <TopCategories title="Shop From Top Categories"></TopCategories> */}
       {/* <TopBrandsSection title="Top Electronics Brands"></TopBrandsSection> */}
