@@ -9,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Star, Truck, Heart } from "lucide-react"
 // import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
+import { useCart } from "@/app/context/CartContext"
 
 export function ProductCards() {
     const [categories, setCategories] = useState([])
@@ -16,6 +18,7 @@ export function ProductCards() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [addingToCart, setAddingToCart] = useState(new Set())
+    const { setCartCount, setCartItems } = useCart()
 
     // const { toast } = useToast()
     // const vendorIdentifier = 'cmefk8met0003609worbmn4v0'
@@ -63,6 +66,55 @@ export function ProductCards() {
         }
         fetchProducts()
     }, [categories])
+
+
+
+    const handleAddToCart = async (product) => {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            toast.error("Please login to add items to cart");
+            return;
+        }
+
+        setAddingToCart(prev => new Set(prev).add(product.id));
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/cart/item`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    productId: product.id,
+                    quantity: 1,
+                    shop: product.shop,
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to add item");
+
+            toast.success(data.message || "Item added to cart!");
+
+
+            // Add the full cart item object from the backend
+            if (data.data) {
+                console.log("cart item and count set")
+                setCartItems(data.data); // <-- overwrite with full cart object
+                setCartCount(data.data.items?.length || 0);
+            }
+
+        } catch (err) {
+            toast.error(err.message);
+        } finally {
+            setAddingToCart(prev => {
+                const updated = new Set(prev);
+                updated.delete(product.id);
+                return updated;
+            });
+        }
+    };
 
     const formatPrice = (price, currency = 'TK') => `${currency}. ${price.toLocaleString()}`
 
@@ -246,7 +298,7 @@ export function ProductCards() {
                                             {/* Add to Cart Button */}
                                             <div className="px-5 pb-5">
                                                 <Button
-                                                    // onClick={(e) => handleAddToCart(product, e)}
+                                                    onClick={() => handleAddToCart(product)}   // ✅ use new function
                                                     disabled={isAddingToCart}
                                                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
                                                 >
@@ -262,6 +314,7 @@ export function ProductCards() {
                                                         </div>
                                                     )}
                                                 </Button>
+
                                             </div>
                                         </Card>
                                     </div>

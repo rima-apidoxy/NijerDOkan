@@ -4,44 +4,48 @@ import { ShoppingCart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useCart } from "@/app/context/CartContext";
 
 export default function CartDropdown() {
     const [cart, setCart] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const { cartCount, cartItems } = useCart();
 
-    useEffect(() => {
-        const fetchCart = async () => {
-            const accessToken = localStorage.getItem("accessToken")
-            try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/cart`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${accessToken}`,
-                    },
-                })
-                const data = await res.json()
-                if (!res.ok) throw new Error(data.error || "Failed to fetch cart")
-                setCart(data.data || null)
-            } catch (err) {
-                setError(err.message)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchCart()
-    }, [])
+    // useEffect(() => {
+    //     const fetchCart = async () => {
+    //         const accessToken = localStorage.getItem("accessToken")
+    //         try {
+    //             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/cart`, {
+    //                 method: "GET",
+    //                 headers: {
+    //                     "Authorization": `Bearer ${accessToken}`,
+    //                 },
+    //             })
+    //             const data = await res.json()
+    //             if (!res.ok) throw new Error(data.error || "Failed to fetch cart")
+    //             setCart(data.data || null)
+    //         } catch (err) {
+    //             setError(err.message)
+    //         } finally {
+    //             setLoading(false)
+    //         }
+    //     }
+    //     fetchCart()
+    // }, [])
+    console.log(cartItems)
+    // console.log(cart)
+    const items = cartItems?.items || []
+    const total = cartItems?.totals?.grandTotal || 0
 
-    const items = cart?.items || []
-    const total = cart?.totals?.grandTotal || 0
     return (
         <div className="relative group">
             {/* Cart Icon */}
             <div className="cursor-pointer relative">
                 <ShoppingCart className="w-6 h-6 text-blue-600" />
-                {items.length > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
-                        {items.length}
+                {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                        {cartCount}
                     </span>
                 )}
             </div>
@@ -65,7 +69,7 @@ export default function CartDropdown() {
                                     className="flex gap-3 border-b pb-3 items-center"
                                 >
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${cart.shop}/${item.image}`}
+                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/image/${cartItems.shop}/${item.image}`}
                                         alt={item.productTitle || "Product Image"}
                                         width={56}
                                         height={56}

@@ -1,11 +1,11 @@
-import Providers from './providers';
+import Providers from "./providers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
-import AuthProvider from './authContext/AuthProvider';
-// import { SiteProvider } from '@/components/siteContext';
-import { Toaster } from 'sonner';
+import AuthProvider from "./authContext/AuthProvider";
+import { Toaster } from "sonner";
+import { CartProvider } from "@/app/context/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,21 +25,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          {/* <SiteProvider> */}
           <Providers>
-            <Navbar></Navbar>
-            {children}
-            <Footer></Footer>
+            <CartProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </CartProvider>
           </Providers>
-          {/* </SiteProvider> */}
         </AuthProvider>
-
         <Toaster />
-
       </body>
     </html>
   );

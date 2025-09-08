@@ -34,6 +34,8 @@ export function Navbar() {
         // { label: "Contact Us", href: "/contact" },
     ]
 
+
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 10)
