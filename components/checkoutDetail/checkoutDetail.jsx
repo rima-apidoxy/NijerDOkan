@@ -128,24 +128,13 @@ export default function CheckoutDetail() {
                     "Authorization": `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({
-                    shippingAddress: {
-                        name: formData.name,
-                        phone: formData.phone,
-                        street: formData.street,
-                        city: formData.city,
-                        state: formData.state,
-                        postalCode: formData.postalCode,
-                        country: formData.country,
-                    },
-                    paymentMethod: formData.paymentMethod,
-                    deliveryOptionId: selectedDeliveryOptionId,
                     shop: cart.shop,
                     items: cart.items.map(item => ({
                         cartItemId: item.id,
                         productId: item.productId,
                         variantId: item.variantId || null,
                         option: item.option || null,
-                        name: item.productTitle,
+                        name: item.name,
                         quantity: item.quantity,
                         price: { basePrice: item.price, currency: "BDT" },
                         total: item.subtotal,
@@ -159,8 +148,19 @@ export default function CheckoutDetail() {
                         deliveryCharge,
                         grandTotal,
                     },
-                    currency: "BDT",
-                    orderNote: formData.orderNote || "",
+                    shippingAddress: {
+                        name: formData.name,
+                        phone: formData.phone,
+                        orderNote: formData.orderNote || "",
+                        street: formData.street,
+                        city: formData.city,
+                        state: formData.state,
+                        postalCode: formData.postalCode,
+                        country: formData.country,
+                    },
+                    paymentMethod: formData.paymentMethod,
+                    deliveryOptionId: selectedDeliveryOptionId,
+
                 }),
             });
 

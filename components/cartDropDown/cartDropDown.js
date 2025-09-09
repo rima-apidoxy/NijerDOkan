@@ -35,8 +35,10 @@ export default function CartDropdown() {
     // }, [])
     console.log(cartItems)
     // console.log(cart)
-    const items = cartItems?.items || []
-    const total = cartItems?.totals?.grandTotal || 0
+
+    const items = cartItems.items || [];
+    const total = cartItems.totals?.grandTotal || 0;
+
 
     return (
         <div className="relative group">

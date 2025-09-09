@@ -95,14 +95,19 @@ export function ProductCards() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to add item");
 
-            toast.success(data.message || "Item added to cart!");
+            // ✅ Re-fetch updated cart
+            if (data.success) {
+                const cartRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/cart`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                const cartData = await cartRes.json();
 
+                if (cartRes.ok && cartData?.data) {
+                    setCartItems(cartData.data);
+                    setCartCount(cartData.data.itemCount || cartData.data.items?.length || 0);
+                }
 
-            // Add the full cart item object from the backend
-            if (data.data) {
-                console.log("cart item and count set")
-                setCartItems(data.data); // <-- overwrite with full cart object
-                setCartCount(data.data.items?.length || 0);
+                toast.success(data.message || "Item added to cart!");
             }
 
         } catch (err) {
@@ -115,6 +120,7 @@ export function ProductCards() {
             });
         }
     };
+
 
     const formatPrice = (price, currency = 'TK') => `${currency}. ${price.toLocaleString()}`
 
@@ -296,26 +302,40 @@ export function ProductCards() {
                                             </Link>
 
                                             {/* Add to Cart Button */}
+                                            {/* Add to Cart OR Select Options Button */}
                                             <div className="px-5 pb-5">
-                                                <Button
-                                                    onClick={() => handleAddToCart(product)}   // ✅ use new function
-                                                    disabled={isAddingToCart}
-                                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
-                                                >
-                                                    {isAddingToCart ? (
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                                            Adding...
-                                                        </div>
-                                                    ) : (
-                                                        <div className="flex items-center gap-2">
-                                                            <ShoppingCart className="h-4 w-4" />
-                                                            Add to Cart
-                                                        </div>
-                                                    )}
-                                                </Button>
-
+                                                {product.hasVariants ? (
+                                                    <Link
+                                                        href={`/product/${product.id}`}
+                                                        className="w-full"
+                                                    >
+                                                        <Button
+                                                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 transition-all duration-300 transform hover:scale-105"
+                                                        >
+                                                            Select Options
+                                                        </Button>
+                                                    </Link>
+                                                ) : (
+                                                    <Button
+                                                        onClick={() => handleAddToCart(product)}
+                                                        disabled={isAddingToCart}
+                                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
+                                                    >
+                                                        {isAddingToCart ? (
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                                Adding...
+                                                            </div>
+                                                        ) : (
+                                                            <div className="flex items-center gap-2">
+                                                                <ShoppingCart className="h-4 w-4" />
+                                                                Add to Cart
+                                                            </div>
+                                                        )}
+                                                    </Button>
+                                                )}
                                             </div>
+
                                         </Card>
                                     </div>
                                 )

@@ -6,8 +6,15 @@ const CartContext = createContext()
 
 export function CartProvider({ children }) {
     const [cartCount, setCartCount] = useState(0)
-    const [cartItems, setCartItems] = useState({});
-    // Load initial cart data on first render
+    const [cartItems, setCartItems] = useState({
+        _id: null,
+        shop: null,
+        totals: { subtotal: 0, discount: 0, tax: 0, deliveryCharge: 0, grandTotal: 0 },
+        cartId: null,
+        itemCount: 0,
+        items: [],
+    });
+
     useEffect(() => {
         const fetchCart = async () => {
             const token = localStorage.getItem("accessToken")
